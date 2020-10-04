@@ -1,11 +1,8 @@
 package com.example.demo.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.sql.Date;
+import  java.sql.Timestamp;
 
 @Entity
 public class UserOrder {
@@ -29,7 +26,10 @@ public class UserOrder {
 	private String orderPhone;
 	private String orderEmail;
 	private boolean orderShipped;
-	
+
+	private Timestamp created;
+	private Timestamp updated;
+	private boolean deleted;
 	
 
 	public UserOrder() {
@@ -203,6 +203,27 @@ public class UserOrder {
 		this.orderShipped = orderShipped;
 	}
 
+	public Timestamp getCreated() {
+		return created;
+	}
 
-	
+	public void setCreated(Timestamp created) {
+		this.created = created;
+	}
+
+	public Timestamp getUpdated() {
+		return updated;
+	}
+
+	public void setUpdated(Timestamp updated) {
+		this.updated = updated;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 }

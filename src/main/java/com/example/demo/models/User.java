@@ -1,12 +1,10 @@
 package com.example.demo.models;
 
 import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 
 @Entity
@@ -24,52 +22,50 @@ public class User {
 	private String password;
 	
 	private boolean emailVerified;
-	private Date registrationDate;
-	
+
 	private String address;
 	private String city;
 	private String state;
 	private String zip;
 	
-	private Date created;
-	private Date updated;
-	private boolean deleted;
+	private Timestamp created;
+	private Timestamp updated;
+	private boolean deleted = false;
 	
 	public User() {
 	}
 
-	public User(String userFirstName, String userLastName, String userEmail, String userPhone,
-			String userPassword, boolean userEmailVerified, Date userRegistrationDate, String userAddress,
-			String userCity, String userState, String userZip) {
-		this.firstName = userFirstName;
-		this.lastName = userLastName;
-		this.email = userEmail;
-		this.phone = userPhone;
-		this.password = userPassword;
-		this.emailVerified = userEmailVerified;
-		this.registrationDate = userRegistrationDate;
-		this.address = userAddress;
-		this.city = userCity;
-		this.state = userState;
-		this.zip = userZip;
+	public User(String firstName, String lastName, String email, String phone,
+			String password, boolean emailVerified, String address,
+			String city, String state, String zip) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.phone = phone;
+		this.password = password;
+		this.emailVerified = emailVerified;
+		this.address = address;
+		this.city = city;
+		this.state = state;
+		this.zip = zip;
 	}
 
-	public Date getCreated() {
+	public Timestamp getCreated() {
 		return created;
 	}
 	
 
-	public void setCreated(Date created) {
+	public void setCreated(Timestamp created) {
 		this.created = created;
 	}
 	
 
-	public Date getUpdated() {
+	public Timestamp getUpdated() {
 		return updated;
 	}
 	
 
-	public void setUpdated(Date updated) {
+	public void setUpdated(Timestamp updated) {
 		this.updated = updated;
 	}
 	
@@ -88,113 +84,103 @@ public class User {
 	}
 
 
-	public String getUserFirstName() {
+	public String getFirstName() {
 		return firstName;
 	}
 
 
-	public void setUserFirstName(String userFirstName) {
-		this.firstName = userFirstName;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
 
-	public String getUserLastName() {
+	public String getLastName() {
 		return lastName;
 	}
 
 
-	public void setUserLastName(String userLastName) {
-		this.lastName = userLastName;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 
-	public String getUserEmail() {
+	public String getEmail() {
 		return email;
 	}
 
 
-	public void setUserEmail(String userEmail) {
-		this.email = userEmail;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 
-	public String getUserPhone() {
+	public String getPhone() {
 		return phone;
 	}
 
 
-	public void setUserPhone(String userPhone) {
-		this.phone = userPhone;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 
-	public String getUserPassword() {
+	public String getPassword() {
 		return password;
 	}
 
 
-	public void setUserPassword(String userPassword) {
-		this.password = userPassword;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 
-	public boolean isUserEmailVerified() {
+	public boolean isEmailVerified() {
 		return emailVerified;
 	}
 
 
-	public void setUserEmailVerified(boolean userEmailVerified) {
-		this.emailVerified = userEmailVerified;
+	public void setEmailVerified(boolean emailVerified) {
+		this.emailVerified = emailVerified;
 	}
 
 
-	public Date getUserRegistrationDate() {
-		return registrationDate;
-	}
-
-
-	public void setUserRegistrationDate(Date userRegistrationDate) {
-		this.registrationDate = userRegistrationDate;
-	}
-
-
-	public String getUserAddress() {
+	public String getAddress() {
 		return address;
 	}
 
 
-	public void setUserAddress(String userAddress) {
-		this.address = userAddress;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 
-	public String getUserCity() {
+	public String getCity() {
 		return city;
 	}
 
 
-	public void setUserCity(String userCity) {
-		this.city = userCity;
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 
-	public String getUserState() {
+	public String getState() {
 		return state;
 	}
 
 
-	public void setUserState(String userState) {
-		this.state = userState;
+	public void setState(String state) {
+		this.state = state;
 	}
 
 
-	public String getUserZip() {
+	public String getZip() {
 		return zip;
 	}
 
 
-	public void setUserZip(String userZip) {
-		this.zip = userZip;
+	public void setZip(String zip) {
+		this.zip = zip;
 	}
 	
 	
