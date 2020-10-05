@@ -1,6 +1,5 @@
 package com.example.demo.Controllers;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,8 +12,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.Converter.ProductCategoryConverter;
+import com.example.demo.Converter.ProductConverter;
 import com.example.demo.ExceptionHandler.ProductCategoryNotFoundException;
 import com.example.demo.ExceptionHandler.ProductNotFoundException;
+import com.example.demo.dto.ProductCategoryDto;
+import com.example.demo.dto.ProductDto;
 import com.example.demo.models.Product;
 import com.example.demo.models.ProductCategory;
 import com.example.demo.repositories.ProductCategoryRepository;
@@ -31,13 +34,19 @@ public class ProductController {
 	@Autowired
 	ProductCategoryRepository productCategoryRepository;
 
+	@Autowired
+	ProductConverter productConverter;
+	
+	@Autowired
+	ProductCategoryConverter productCategoryConverter;
 
 	/*
 	 * //Number of products //List of details of products.
 	 * //Product Id //Object of product.
 	 */	
+	
 	@RequestMapping(value={"/get","/get/{id}"})
-	public List<Product> getProducts(@PathVariable(name = "id",required = false) String id) {
+	public List<ProductDto> getProducts(@PathVariable(name = "id",required = false) String id) {
 
 		if(id!=null) {
 			int parsed_id = 0;
@@ -56,10 +65,10 @@ public class ProductController {
 			// DTO's
 			
 			if(result!=null) {
-				return Arrays.asList(result);
+				return productConverter.entityToDto(Arrays.asList(result));
 			}
 		}else {
-			return productRepository.findAll();	
+			return productConverter.entityToDto(productRepository.findAll());	
 		}
 		return null;
 	}
@@ -70,7 +79,7 @@ public class ProductController {
 	 * //Product category, Number of products //List of details of products of this category.
 	 */
 	@RequestMapping(value={"/category/get","/category/get/{id}"})
-	public List<ProductCategory> getProductCategory(@PathVariable(name = "id",required = false) String id) {
+	public List<ProductCategoryDto> getProductCategory(@PathVariable(name = "id",required = false) String id) {
 		if(id!=null) {
 			int parsed_id = 0;
 			try {
@@ -84,10 +93,10 @@ public class ProductController {
 			ProductCategory result = productCategoryRepository.findById(category_id).orElseThrow(() -> new ProductCategoryNotFoundException(category_id) );
 
 			if(result!=null) {
-				return Arrays.asList(result);
+				return productCategoryConverter.entityToDto(Arrays.asList(result));
 			}
 		}else {
-			return productCategoryRepository.findAll();
+			return productCategoryConverter.entityToDto(productCategoryRepository.findAll());
 		}
 		return null; 
 	}
@@ -97,13 +106,13 @@ public class ProductController {
 	 * //Obj of Product, Obj of Product Category //“Success” / ”Failed”
 	 */
 	@PostMapping("/set")
-	public void setProduct(@RequestBody Product product) {
+	public void setProduct(@RequestBody ProductDto productDto) {
 		// Check if all fields are set in product
-		if(product.getProductCategory()==null) {
+		if(productDto==null) 
 			return;
-		}
+		
 		try {
-			productRepository.save(product);	
+			productRepository.save(productConverter.dtoToEntity(productDto));	
 		} catch (Exception e) {
 			logger.error("error occured while insert "+e.getMessage());
 		}
@@ -115,9 +124,12 @@ public class ProductController {
 	 * //Obj of Product Category //“Success” / ”Failed”
 	 */
 	@PostMapping("/category/set")
-	public void setProductCategory(@RequestBody ProductCategory productCategory ) {
+	public void setProductCategory(@RequestBody ProductCategoryDto productCategoryDto ) {
+		if(productCategoryDto==null)
+			return;
+		
 		try {
-			productCategoryRepository.save(new ProductCategory(productCategory.getCategoryName()));
+			productCategoryRepository.save(productCategoryConverter.dtoToEntity(productCategoryDto));
 		} catch(Exception e) {
 			logger.error("error occured while insert "+e.getMessage());
 		}

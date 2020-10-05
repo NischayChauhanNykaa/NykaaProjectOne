@@ -1,7 +1,8 @@
 package com.example.demo.models;
 
-import java.sql.Date;
+import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 @Entity
@@ -20,39 +23,70 @@ public class Product {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private ProductCategory productCategory;
 	
+	@Column(length = 50,nullable = false)
 	private String productName;
+
+	@Column(length = 20,nullable = false)
 	private String productPrice;
+
+	@Column(length = 255,nullable = false)
 	private String productImage;
+
+	@Column(length = 50,nullable = false)
 	private String productThumbnail;
+
+	@Column(length = 250,nullable = false)
 	private String productLocation;
+
+	@Column(length = 1000,nullable = false)
 	private String prodcutInfo;
 	
-	private Date created;
-	private Date updated;
+	@Column(updatable = false)
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date created = new Date();
+	
+
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date updated = new Date();
+
+	
 	private boolean deleted;
 	
 	
 	public Product() {}
 	
-	public Product(String productName, String productPrice, String productImage, String productThumbnail,
-			String productLocation, String prodcutInfo1, String prodcutInfo2, String prodcutInfo3, String prodcutInfo4,
-			String prodcutInfo5) {
+	public Product(long productId, ProductCategory productCategory, String productName, String productPrice,
+			String productImage, String productThumbnail, String productLocation, String prodcutInfo) {
+		this.productId = productId;
+		this.productCategory = productCategory;
 		this.productName = productName;
 		this.productPrice = productPrice;
 		this.productImage = productImage;
 		this.productThumbnail = productThumbnail;
 		this.productLocation = productLocation;
-		this.setProdcutInfo1(prodcutInfo1);
+		this.prodcutInfo = prodcutInfo;
 	}
+	public Product(String productName, String productPrice,
+			String productImage, String productThumbnail, String productLocation, String prodcutInfo) {
+		this.productName = productName;
+		this.productPrice = productPrice;
+		this.productImage = productImage;
+		this.productThumbnail = productThumbnail;
+		this.productLocation = productLocation;
+		this.prodcutInfo = prodcutInfo;
+	}
+	
 	public Date getCreated() {
 		return created;
 	}
 	
 
-	public void setCreated(Date created) {
-		this.created = created;
-	}
 	
+	
+
+	public void setProductId(long productId) {
+		this.productId = productId;
+	}
 
 	public Date getUpdated() {
 		return updated;
@@ -126,12 +160,12 @@ public class Product {
 		this.productCategory = productCategory;
 	}
 
-	public String getProdcutInfo1() {
+	public String getProdcutInfo() {
 		return prodcutInfo;
 	}
 
-	public void setProdcutInfo1(String prodcutInfo1) {
-		this.prodcutInfo = prodcutInfo1;
+	public void setProdcutInfo(String prodcutInfo) {
+		this.prodcutInfo = prodcutInfo;
 	}
 	
 	
