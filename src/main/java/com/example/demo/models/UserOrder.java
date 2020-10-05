@@ -1,7 +1,7 @@
 package com.example.demo.models;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import  java.sql.Timestamp;
 
 @Entity
@@ -27,8 +27,15 @@ public class UserOrder {
 	private String orderEmail;
 	private boolean orderShipped;
 
-	private Timestamp created;
-	private Timestamp updated;
+	@Column(updatable = false)
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date created = new Date();
+	
+
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date updated = new Date();
+
+	
 	private boolean deleted;
 	
 
@@ -203,7 +210,7 @@ public class UserOrder {
 		this.orderShipped = orderShipped;
 	}
 
-	public Timestamp getCreated() {
+	public Date getCreated() {
 		return created;
 	}
 
@@ -211,7 +218,7 @@ public class UserOrder {
 		this.created = created;
 	}
 
-	public Timestamp getUpdated() {
+	public Date getUpdated() {
 		return updated;
 	}
 

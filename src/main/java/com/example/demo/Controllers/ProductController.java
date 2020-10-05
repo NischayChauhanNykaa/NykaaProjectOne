@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.Constants.RouteMap;
 import com.example.demo.Converter.ProductCategoryConverter;
 import com.example.demo.Converter.ProductConverter;
 import com.example.demo.ExceptionHandler.ProductCategoryNotFoundException;
@@ -24,7 +25,7 @@ import com.example.demo.repositories.ProductCategoryRepository;
 import com.example.demo.repositories.ProductRepository;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping(value = RouteMap.PRODUCT_CONTROLLER)
 public class ProductController {
 
 	Logger logger = LogManager.getLogger(ProductController.class);
@@ -40,13 +41,10 @@ public class ProductController {
 	@Autowired
 	ProductCategoryConverter productCategoryConverter;
 
-	/*
-	 * //Number of products //List of details of products.
-	 * //Product Id //Object of product.
-	 */	
 	
-	@RequestMapping(value={"/get","/get/{id}"})
-	public List<ProductDto> getProducts(@PathVariable(name = "id",required = false) String id) {
+	/* API to get all the products or any specific product from the database */
+	@RequestMapping(value={ RouteMap.PRODUCT_CONTROLLER_GET_PRODUCT , RouteMap.PRODUCT_CONTROLLER_GET_PRODUCT+ "/{id}" })
+	public List<ProductDto> getProduct(@PathVariable(name = "id",required = false) String id) {
 
 		if(id!=null) {
 			int parsed_id = 0;
@@ -61,9 +59,6 @@ public class ProductController {
 
 			Product result = productRepository.findById(product_id).orElseThrow(() -> new ProductNotFoundException(product_id) );
 			
-			// Database Indexes --> Query Time Performance
-			// DTO's
-			
 			if(result!=null) {
 				return productConverter.entityToDto(Arrays.asList(result));
 			}
@@ -74,11 +69,8 @@ public class ProductController {
 	}
 
 
-
-	/*
-	 * //Product category, Number of products //List of details of products of this category.
-	 */
-	@RequestMapping(value={"/category/get","/category/get/{id}"})
+	/* API to get all the product categories or any specific product category from the database */
+	@RequestMapping(value={ RouteMap.PRODUCT_CONTROLLER_GET_PRODUCT_CATEGORY , RouteMap.PRODUCT_CONTROLLER_GET_PRODUCT_CATEGORY+ "/{id}" })
 	public List<ProductCategoryDto> getProductCategory(@PathVariable(name = "id",required = false) String id) {
 		if(id!=null) {
 			int parsed_id = 0;
@@ -101,13 +93,9 @@ public class ProductController {
 		return null; 
 	}
 
-
-	/*
-	 * //Obj of Product, Obj of Product Category //“Success” / ”Failed”
-	 */
-	@PostMapping("/set")
+	/* API to insert a product in the database */
+	@PostMapping(value = RouteMap.PRODUCT_CONTROLLER_SET_PRODUCT)
 	public void setProduct(@RequestBody ProductDto productDto) {
-		// Check if all fields are set in product
 		if(productDto==null) 
 			return;
 		
@@ -118,12 +106,8 @@ public class ProductController {
 		}
 	}
 
-
-
-	/*
-	 * //Obj of Product Category //“Success” / ”Failed”
-	 */
-	@PostMapping("/category/set")
+	/* API to insert product category in the database */
+	@PostMapping(value = RouteMap.PRODUCT_CONTROLLER_SET_PRODUCT_CATEGORY)
 	public void setProductCategory(@RequestBody ProductCategoryDto productCategoryDto ) {
 		if(productCategoryDto==null)
 			return;
