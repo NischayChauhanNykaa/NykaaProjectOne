@@ -1,6 +1,5 @@
 package com.example.demo.Controllers;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,15 +12,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.Constants.RouteMap;
+import com.example.demo.Converter.ProductCategoryConverter;
+import com.example.demo.Converter.ProductConverter;
 import com.example.demo.ExceptionHandler.ProductCategoryNotFoundException;
 import com.example.demo.ExceptionHandler.ProductNotFoundException;
+import com.example.demo.dto.ProductCategoryDto;
+import com.example.demo.dto.ProductDto;
 import com.example.demo.models.Product;
 import com.example.demo.models.ProductCategory;
 import com.example.demo.repositories.ProductCategoryRepository;
 import com.example.demo.repositories.ProductRepository;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping(value = RouteMap.PRODUCT_CONTROLLER)
 public class ProductController {
 
 	Logger logger = LogManager.getLogger(ProductController.class);
@@ -31,13 +35,16 @@ public class ProductController {
 	@Autowired
 	ProductCategoryRepository productCategoryRepository;
 
+	@Autowired
+	ProductConverter productConverter;
+	
+	@Autowired
+	ProductCategoryConverter productCategoryConverter;
 
-	/*
-	 * //Number of products //List of details of products.
-	 * //Product Id //Object of product.
-	 */	
-	@RequestMapping(value={"/get","/get/{id}"})
-	public List<Product> getProducts(@PathVariable(name = "id",required = false) String id) {
+	
+	/* API to get all the products or any specific product from the database */
+	@RequestMapping(value={ RouteMap.PRODUCT_CONTROLLER_GET_PRODUCT , RouteMap.PRODUCT_CONTROLLER_GET_PRODUCT+ "/{id}" })
+	public List<ProductDto> getProduct(@PathVariable(name = "id",required = false) String id) {
 
 		if(id!=null) {
 			int parsed_id = 0;
@@ -52,25 +59,19 @@ public class ProductController {
 
 			Product result = productRepository.findById(product_id).orElseThrow(() -> new ProductNotFoundException(product_id) );
 			
-			// Database Indexes --> Query Time Performance
-			// DTO's
-			
 			if(result!=null) {
-				return Arrays.asList(result);
+				return productConverter.entityToDto(Arrays.asList(result));
 			}
 		}else {
-			return productRepository.findAll();	
+			return productConverter.entityToDto(productRepository.findAll());	
 		}
 		return null;
 	}
 
 
-
-	/*
-	 * //Product category, Number of products //List of details of products of this category.
-	 */
-	@RequestMapping(value={"/category/get","/category/get/{id}"})
-	public List<ProductCategory> getProductCategory(@PathVariable(name = "id",required = false) String id) {
+	/* API to get all the product categories or any specific product category from the database */
+	@RequestMapping(value={ RouteMap.PRODUCT_CONTROLLER_GET_PRODUCT_CATEGORY , RouteMap.PRODUCT_CONTROLLER_GET_PRODUCT_CATEGORY+ "/{id}" })
+	public List<ProductCategoryDto> getProductCategory(@PathVariable(name = "id",required = false) String id) {
 		if(id!=null) {
 			int parsed_id = 0;
 			try {
@@ -84,40 +85,35 @@ public class ProductController {
 			ProductCategory result = productCategoryRepository.findById(category_id).orElseThrow(() -> new ProductCategoryNotFoundException(category_id) );
 
 			if(result!=null) {
-				return Arrays.asList(result);
+				return productCategoryConverter.entityToDto(Arrays.asList(result));
 			}
 		}else {
-			return productCategoryRepository.findAll();
+			return productCategoryConverter.entityToDto(productCategoryRepository.findAll());
 		}
 		return null; 
 	}
 
-
-	/*
-	 * //Obj of Product, Obj of Product Category //“Success” / ”Failed”
-	 */
-	@PostMapping("/set")
-	public void setProduct(@RequestBody Product product) {
-		// Check if all fields are set in product
-		if(product.getProductCategory()==null) {
+	/* API to insert a product in the database */
+	@PostMapping(value = RouteMap.PRODUCT_CONTROLLER_SET_PRODUCT)
+	public void setProduct(@RequestBody ProductDto productDto) {
+		if(productDto==null) 
 			return;
-		}
+		
 		try {
-			productRepository.save(product);	
+			productRepository.save(productConverter.dtoToEntity(productDto));	
 		} catch (Exception e) {
 			logger.error("error occured while insert "+e.getMessage());
 		}
 	}
 
-
-
-	/*
-	 * //Obj of Product Category //“Success” / ”Failed”
-	 */
-	@PostMapping("/category/set")
-	public void setProductCategory(@RequestBody ProductCategory productCategory ) {
+	/* API to insert product category in the database */
+	@PostMapping(value = RouteMap.PRODUCT_CONTROLLER_SET_PRODUCT_CATEGORY)
+	public void setProductCategory(@RequestBody ProductCategoryDto productCategoryDto ) {
+		if(productCategoryDto==null)
+			return;
+		
 		try {
-			productCategoryRepository.save(new ProductCategory(productCategory.getCategoryName()));
+			productCategoryRepository.save(productCategoryConverter.dtoToEntity(productCategoryDto));
 		} catch(Exception e) {
 			logger.error("error occured while insert "+e.getMessage());
 		}

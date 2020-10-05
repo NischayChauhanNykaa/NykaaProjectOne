@@ -1,11 +1,13 @@
 package com.example.demo.models;
 
-import java.sql.Date;
-
+import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class ProductCategory {
@@ -13,11 +15,17 @@ public class ProductCategory {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long categoryId;
-	
-	private String categoryName;
 
-	private Date created;
-	private Date updated;
+	@Column(length = 50,nullable = false)
+	private String categoryName;
+	
+	@Column(updatable = false)
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date created = new Date();
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date updated = new Date();
+	
 	private boolean deleted;
 	
 	public ProductCategory() {}
@@ -44,10 +52,11 @@ public class ProductCategory {
 	}
 	
 
-	public void setCreated(Date created) {
-		this.created = created;
-	}
 	
+
+	public void setCategoryId(long categoryId) {
+		this.categoryId = categoryId;
+	}
 
 	public Date getUpdated() {
 		return updated;
