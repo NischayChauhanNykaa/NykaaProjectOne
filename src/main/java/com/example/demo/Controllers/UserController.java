@@ -54,17 +54,8 @@ public class UserController {
 
     @PutMapping("/update")
     public User updateUser(@RequestBody User user) throws Exception {
-        long id = user.getUserID();
-        User updateUser = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
-        if(updateUser.isDeleted()) throw new UserNotFoundException(id);
-        updateUser.setFirstName(user.getFirstName());
-        updateUser.setLastName(user.getLastName());
-        updateUser.setPhone(user.getPhone());
-        updateUser.setAddress(user.getAddress());
-        updateUser.setCity(user.getCity());
-        updateUser.setState(user.getState());
-        updateUser.setZip(user.getZip());
-        return userRepository.save(updateUser);
+        if(user == null || user.getUserId() == 0) throw new Exception("Invalid user details");
+        return userRepository.save(user);
     }
 
     @DeleteMapping("/delete")

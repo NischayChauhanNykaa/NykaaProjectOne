@@ -63,7 +63,14 @@ public class User {
 	public void setCreated(Timestamp created) {
 		this.created = created;
 	}
-	
+
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
 
 	public Timestamp getUpdated() {
 		return updated;
@@ -83,14 +90,6 @@ public class User {
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
 	}	
-	
-	public long getUserID() {
-		return userId;
-	}
-
-	public void setUserId(long userId) {
-		this.userId = userId;
-	}
 
 	public String getFirstName() {
 		return firstName;
