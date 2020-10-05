@@ -1,14 +1,18 @@
 package com.example.demo.Controllers;
 
 
+import com.example.demo.ExceptionHandler.UserNotFoundException;
 import com.example.demo.models.User;
 import com.example.demo.repositories.UserRepository;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.expression.ExpressionException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
@@ -21,7 +25,7 @@ public class UserController {
 
     BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
-
+    //FOR TESTING
     @GetMapping("/users")
     public List<User> getUsers() {
         return userRepository.findAll();
@@ -40,15 +44,34 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public User loginUser(@RequestBody User user) throws Exception {
+    public ResponseEntity<String> loginUser(@RequestBody User user) throws Exception {
         String email = user.getEmail();
         String password = user.getPassword();
         User userObj = userRepository.findByEmail(email);
-
-        if(userObj == null || !bCryptPasswordEncoder.matches(password, userObj.getPassword())) throw (new Exception("Invalid email or password"));
-        return userObj;
+        if(userObj == null || !bCryptPasswordEncoder.matches(password, userObj.getPassword())) return ResponseEntity.status(401).body("Invalid email or password");
+        return ResponseEntity.ok().body("Logged in successfully");
     }
 
+    @PutMapping("/update")
+    public User updateUser(@RequestBody User user) throws Exception {
+        long id = user.getUserID();
+        User updateUser = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+        if(updateUser.isDeleted()) throw new UserNotFoundException(id);
+        updateUser.setFirstName(user.getFirstName());
+        updateUser.setLastName(user.getLastName());
+        updateUser.setPhone(user.getPhone());
+        updateUser.setAddress(user.getAddress());
+        updateUser.setCity(user.getCity());
+        updateUser.setState(user.getState());
+        updateUser.setZip(user.getZip());
+        return userRepository.save(updateUser);
+    }
 
-
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteUser(@RequestParam long id) throws Exception {
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+        user.setDeleted(true);
+        userRepository.save(user);
+        return ResponseEntity.ok().body("User deleted");
+    }
 }

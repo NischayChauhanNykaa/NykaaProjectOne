@@ -1,5 +1,8 @@
 package com.example.demo.models;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -27,8 +30,10 @@ public class User {
 	private String city;
 	private String state;
 	private String zip;
-	
+
+	@CreationTimestamp
 	private Timestamp created;
+	@UpdateTimestamp
 	private Timestamp updated;
 	private boolean deleted = false;
 	
@@ -83,6 +88,9 @@ public class User {
 		return userId;
 	}
 
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
 
 	public String getFirstName() {
 		return firstName;

@@ -1,5 +1,8 @@
 package com.example.demo.models;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -22,7 +25,9 @@ public class UserOrderDetails {
 	private String detailsPrice;
 	private int detailsQuantity;
 
+	@CreationTimestamp
 	private Timestamp created;
+	@UpdateTimestamp
 	private Timestamp updated;
 	private boolean deleted;
 	

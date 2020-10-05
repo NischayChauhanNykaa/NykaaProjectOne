@@ -1,5 +1,8 @@
 package com.example.demo.models;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import java.sql.Date;
 import  java.sql.Timestamp;
@@ -27,7 +30,9 @@ public class UserOrder {
 	private String orderEmail;
 	private boolean orderShipped;
 
+	@CreationTimestamp
 	private Timestamp created;
+	@UpdateTimestamp
 	private Timestamp updated;
 	private boolean deleted;
 	
