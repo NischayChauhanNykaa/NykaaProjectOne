@@ -31,7 +31,7 @@ public class User {
 	private String state;
 	private String zip;
 
-	@Column(updatable = false)
+	@Column(updatable = false, nullable = false)
 	@CreationTimestamp
 	private Timestamp created;
 	@UpdateTimestamp

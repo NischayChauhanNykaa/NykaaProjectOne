@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
@@ -58,7 +59,15 @@ public class UserController {
     @PutMapping("/update")
     public User updateUser(@RequestBody User user) throws Exception {
         if(user == null || user.getUserId() == 0) throw new Exception("Invalid user details");
-        return userRepository.save(user);
+        User userObj = userRepository.findByUserId(user.getUserId());
+        userObj.setFirstName(user.getFirstName());
+        userObj.setLastName(user.getLastName());
+        userObj.setPhone(user.getPhone());
+        userObj.setAddress(user.getAddress());
+        userObj.setCity(user.getCity());
+        userObj.setState(user.getState());
+        userObj.setZip(user.getZip());
+        return userRepository.save(userObj);
     }
 
     @DeleteMapping("/delete")
