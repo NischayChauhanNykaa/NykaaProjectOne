@@ -30,6 +30,7 @@ public class UserOrder {
 	private String orderEmail;
 	private boolean orderShipped;
 
+	@Column(updatable = false)
 	@CreationTimestamp
 	private Timestamp created;
 	@UpdateTimestamp

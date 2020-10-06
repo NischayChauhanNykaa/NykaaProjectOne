@@ -25,6 +25,7 @@ public class UserOrderDetails {
 	private String detailsPrice;
 	private int detailsQuantity;
 
+	@Column(updatable = false)
 	@CreationTimestamp
 	private Timestamp created;
 	@UpdateTimestamp
