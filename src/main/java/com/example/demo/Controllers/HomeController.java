@@ -45,11 +45,11 @@ public class HomeController {
 	
 		Date d1 = new Date(0);
 
-//		userRepository.save(new User("FN","LN","EM","UP","UPS",false,d1,"UA","UC","US","UZ"));
-//		userRepository.save(new User("FN2","LN2","EM2","UP2","UPS2",false,d1,"UA2","UC2","US2","UZ2"));
-//		userRepository.save(new User("FN3","LN3","EM3","UP3","UPS3",false,d1,"UA3","U3C","U3S","UZ3"));
-//		userRepository.save(new User("FN4","LN4","EM4","UP","UPS",false,d1,"UA","UC","US","UZ"));
-//		userRepository.save(new User("FN5","LN5","EM4","UP","UPS",false,d1,"UA","UC","US","UZ"));
+		userRepository.save(new User("FN","LN","EM","UP","UPS",false,"UA","UC","US","UZ"));
+		userRepository.save(new User("FN2","LN2","EM2","UP2","UPS2",false,"UA2","UC2","US2","UZ2"));
+		userRepository.save(new User("FN3","LN3","EM3","UP3","UPS3",false,"UA3","U3C","U3S","UZ3"));
+		userRepository.save(new User("FN4","LN4","EM4","UP","UPS",false,"UA","UC","US","UZ"));
+		userRepository.save(new User("FN5","LN5","EM4","UP","UPS",false,"UA","UC","US","UZ"));
 
 		
 		return "No";

@@ -1,5 +1,6 @@
 package com.example.demo.models;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 @Entity
 public class ProductCategory {
 	
@@ -17,62 +21,64 @@ public class ProductCategory {
 	private long categoryId;
 
 	@Column(length = 50,nullable = false)
-	private String categoryName;
-	
+	private String name;
+
 	@Column(updatable = false)
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date created = new Date();
+	@CreationTimestamp
+	private Date created;
+	@UpdateTimestamp
+	private Date updated;
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date updated = new Date();
-	
-	private boolean deleted;
+	private boolean deleted = false;
 	
 	public ProductCategory() {}
 	
-	public ProductCategory(String categoryName) {
-		this.categoryName = categoryName;
+
+	public ProductCategory(String name) {
+		super();
+		this.name = name;
+	}
+
+
+
+
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	
+	
+	
+
+
 	public long getCategoryId() {
 		return categoryId;
 	}
-
-	public String getCategoryName() {
-		return categoryName;
-	}
-
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
-	}
-
 	
-	public Date getCreated() {
-		return created;
-	}
-	
-
-	
-
 	public void setCategoryId(long categoryId) {
 		this.categoryId = categoryId;
 	}
 
+	public Date getCreated() {
+		return created;
+	}
+	
 	public Date getUpdated() {
 		return updated;
 	}
-	
 
 	public void setUpdated(Date updated) {
 		this.updated = updated;
 	}
-	
 
 	public boolean isDeleted() {
 		return deleted;
 	}
 	
-
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
 	}	

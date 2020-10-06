@@ -18,7 +18,7 @@ public class ProductCategoryConverter {
 		ProductCategoryDto productCategoryDto = new ProductCategoryDto();
 		
 		productCategoryDto.setCategoryId(productCategory.getCategoryId());
-		productCategoryDto.setCategoryName(productCategory.getCategoryName());
+		productCategoryDto.setCategoryName(productCategory.getName());
 		
 		return productCategoryDto;
 	}
@@ -37,7 +37,7 @@ public class ProductCategoryConverter {
 		
 		ProductCategory productCategory = new ProductCategory();
 		productCategory.setCategoryId(productCategoryDto.getCategoryId());
-		productCategory.setCategoryName(productCategoryDto.getCategoryName());
+		productCategory.setName(productCategoryDto.getCategoryName());
 		return productCategory;
 	}
 

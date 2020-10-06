@@ -31,6 +31,9 @@ public class UserController {
         return userRepository.findAll();
     }
 
+    
+    // Service Layer Design
+    // Repository Calls X
     @PostMapping("/register")
     public User registerUser(@RequestBody User user) throws Exception {
         String checkEmail = user.getEmail();

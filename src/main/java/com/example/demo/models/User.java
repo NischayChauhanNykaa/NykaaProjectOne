@@ -31,10 +31,12 @@ public class User {
 	private String state;
 	private String zip;
 
+	@Column(updatable = false)
 	@CreationTimestamp
 	private Timestamp created;
 	@UpdateTimestamp
 	private Timestamp updated;
+	
 	private boolean deleted = false;
 	
 	public User() {
