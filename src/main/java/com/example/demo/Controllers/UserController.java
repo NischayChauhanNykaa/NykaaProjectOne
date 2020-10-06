@@ -2,18 +2,31 @@ package com.example.demo.Controllers;
 
 
 import com.example.demo.ExceptionHandler.UserNotFoundException;
+import com.example.demo.Services.Impl.UserServiceImpl;
+import com.example.demo.Services.Structure.UserService;
+import com.example.demo.dto.UserDto;
 import com.example.demo.models.User;
 import com.example.demo.repositories.UserRepository;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.expression.ExpressionException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private UserRepository userRepository;
@@ -26,20 +39,17 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    
-    // Service Layer Design
-    // Repository Calls X
-    @PostMapping("/register")
-    public User registerUser(@RequestBody User user) throws Exception {
-        String checkEmail = user.getEmail();
-        if(checkEmail != null && !"".equals(checkEmail)) {
-            User checkUser = userRepository.findByEmail(checkEmail);
-            if(checkUser != null) throw new Exception("User with this Email Id already exists.");
-        }
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+    @GetMapping("/users/{id}")
+    public User getUser(@PathVariable long id) {
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<String> registerUser(@RequestBody UserDto userDto) {
+        if(userService.save(userDto))
+            return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
+        return new ResponseEntity<>("Error while registering user", HttpStatus.NOT_ACCEPTABLE);
+    }
 
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestBody User user) throws Exception {
