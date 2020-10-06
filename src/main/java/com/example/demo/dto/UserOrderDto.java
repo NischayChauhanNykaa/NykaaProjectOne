@@ -1,70 +1,52 @@
-package com.example.demo.models;
+package com.example.demo.dto;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.*;
-import java.sql.Date;
-import  java.sql.Timestamp;
-import java.text.DecimalFormat;
+import com.example.demo.models.User;
 
-@Entity
-public class UserOrder {
+public class UserOrderDto {
 	
-	@Id
-	@GeneratedValue
 	private long orderId;
-	
-	@ManyToOne
-	private User user;
 
-	@Column(columnDefinition="Decimal(10,2)")
+	private User user;
 	private double amount;
 
-	@Column(columnDefinition="Decimal(10,2)")
 	private double shippingCharge;
 
-	@Column(nullable = false, length = 50)
 	private String name;
-
-	@Column(nullable = false)
 	private String address;
-
-	@Column(nullable = false, length = 30)
 	private String city;
-	@Column(nullable = false, length = 30)
 	private String state;
-	@Column(nullable = false, length = 10)
 	private String zip;
-	@Column(nullable = false, length = 30)
 	private String country;
-	@Column(nullable = false, length = 20)
 	private String phone;
 
-	@Column(length = 50)
 	private String email;
 
 	private boolean shipped;
 
-	@Column(updatable = false)
-	@CreationTimestamp
-	private Timestamp created;
-	@UpdateTimestamp
-	private Timestamp updated;
-	private boolean deleted;
+	public UserOrderDto() {}
 	
-
-	public UserOrder() {
-	}
-
-
-
-	public UserOrder(float amount, float shippingCharge, User user, String name,
-			String address, String city, String state, String zip, String country,
-			String phone, String email, boolean shipped) {
+	public UserOrderDto(long orderId, User user, double amount, double shippingCharge, String name, String address,
+			String city, String state, String zip, String country, String phone, String email, boolean shipped) {
+		this.orderId = orderId;
+		this.user = user;
 		this.amount = amount;
 		this.shippingCharge = shippingCharge;
-		this.user = user;
+		this.name = name;
+		this.address = address;
+		this.city = city;
+		this.state = state;
+		this.zip = zip;
+		this.country = country;
+		this.phone = phone;
+		this.email = email;
+		this.shipped = shipped;
+	}
+
+	public UserOrderDto( double amount, double shippingCharge, String name, String address,
+			String city, String state, String zip, String country, String phone, String email, boolean shipped, long orderId) {
+		this.amount = amount;
+		this.shippingCharge = shippingCharge;
 		this.name = name;
 		this.address = address;
 		this.city = city;
@@ -96,16 +78,16 @@ public class UserOrder {
 		return amount;
 	}
 
-	public void setAmount(double d) {
-		this.amount = d;
+	public void setAmount(double amount) {
+		this.amount = amount;
 	}
 
 	public double getShippingCharge() {
 		return shippingCharge;
 	}
 
-	public void setShippingCharge(double d) {
-		this.shippingCharge = d;
+	public void setShippingCharge(double shippingCharge) {
+		this.shippingCharge = shippingCharge;
 	}
 
 	public String getName() {
@@ -180,27 +162,14 @@ public class UserOrder {
 		this.shipped = shipped;
 	}
 
-	public Timestamp getCreated() {
-		return created;
+	@Override
+	public String toString() {
+		return "UserOrderDto [orderId=" + orderId + ", user=" + user.toString() + ", amount=" + amount + ", shippingCharge="
+				+ shippingCharge + ", name=" + name + ", address=" + address + ", city=" + city + ", state=" + state
+				+ ", zip=" + zip + ", country=" + country + ", phone=" + phone + ", email=" + email + ", shipped="
+				+ shipped + "]";
 	}
 
-	public void setCreated(Timestamp created) {
-		this.created = created;
-	}
-
-	public Timestamp getUpdated() {
-		return updated;
-	}
-
-	public void setUpdated(Timestamp updated) {
-		this.updated = updated;
-	}
-
-	public boolean isDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
-	}
+	
+	
 }

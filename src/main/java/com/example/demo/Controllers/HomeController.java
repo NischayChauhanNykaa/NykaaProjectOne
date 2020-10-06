@@ -59,12 +59,11 @@ public class HomeController {
 	public String testOrder() {
 		long user_Id = 1;
 		User target_user = userRepository.findByUserId(user_Id);
-//		
-//		UserOrder order = new UserOrder(1200,100,"SH_NAME","SH_ADDRSS","SH_City","SH_State","SH_Zip","SH_Coutnry","SH_Phone","SH_Email",false);
-//		order.setOrderUserId(target_user);
-//		
-//		ordersRepository.save(order);
-//		
+		
+		UserOrder order = new UserOrder(1200,100,target_user, "SH_NAME","SH_ADDRSS","SH_City","SH_State","SH_Zip","SH_Coutnry","SH_Phone","SH_Email",false);
+		
+		ordersRepository.save(order);
+		
 		return "No Success "+target_user.getFirstName();
 	}
 	
