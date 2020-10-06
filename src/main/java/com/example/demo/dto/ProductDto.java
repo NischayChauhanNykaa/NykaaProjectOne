@@ -94,6 +94,14 @@ public class ProductDto {
 	public void setProdcutInfo(String prodcutInfo) {
 		this.prodcutInfo = prodcutInfo;
 	}
+
+	@Override
+	public String toString() {
+		return "ProductDto [productId=" + productId + ", productName="
+				+ productName + ", productPrice=" + productPrice + ", productImage=" + productImage
+				+ ", productThumbnail=" + productThumbnail + ", productLocation=" + productLocation + ", prodcutInfo="
+				+ prodcutInfo + "]";
+	}
 	
 	
 	

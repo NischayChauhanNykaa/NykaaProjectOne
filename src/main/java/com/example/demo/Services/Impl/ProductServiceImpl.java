@@ -32,7 +32,6 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Override
 	public List<ProductDto> getProduct(String id) {
-
 		if(id!=null) {
 			int parsed_id = 0;
 			try {
@@ -44,9 +43,10 @@ public class ProductServiceImpl implements ProductService{
 
 			final long product_id = parsed_id;
 
-			Product result = productRepository.findById(product_id).orElseThrow(() -> new ProductNotFoundException(product_id) );
+			Product result = productRepository.findByproductId(product_id);
 			
 			if(result!=null) {
+				logger.error("Object::: "+result.toString());
 				return productConverter.entityToDto(Arrays.asList(result));
 			}
 		}else {

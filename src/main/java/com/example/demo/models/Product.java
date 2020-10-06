@@ -195,6 +195,15 @@ public class Product {
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
 	}
+
+
+	@Override
+	public String toString() {
+		return "Product [productId=" + productId + ", name=" + name
+				+ ", price=" + price + ", image=" + image + ", thumbnail=" + thumbnail + ", location=" + location
+				+ ", information=" + information + ", created=" + created + ", updated=" + updated + ", deleted="
+				+ deleted + "]";
+	}
 	
 
 	
