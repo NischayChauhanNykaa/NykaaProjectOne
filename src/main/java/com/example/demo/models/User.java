@@ -16,19 +16,34 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long userId;
-	
+
+	@Column(length = 50,nullable = false)
 	private String firstName;
+
+	@Column(length = 50,nullable = false)
 	private String lastName;
-	
+
+	@Column(length = 50, nullable = false)
 	private String email;
+
+	@Column(length = 20,nullable = false)
 	private String phone;
+
+	@Column(nullable = false)
 	private String password;
-	
-	private boolean emailVerified;
+
+	@Column(nullable = false)
+	private boolean emailVerified = false;
 
 	private String address;
+
+	@Column(length = 30)
 	private String city;
+
+	@Column(length = 30)
 	private String state;
+
+	@Column(length = 10)
 	private String zip;
 
 	@Column(updatable = false, nullable = false)
@@ -36,7 +51,8 @@ public class User {
 	private Timestamp created;
 	@UpdateTimestamp
 	private Timestamp updated;
-	
+
+	@Column(nullable = false)
 	private boolean deleted = false;
 	
 	public User() {

@@ -12,18 +12,21 @@ public class UserOrderDetails {
 	
 	@Id
 	@GeneratedValue
-	private long detailsId;
+	private long detailId;
 	
 	
 	@ManyToOne
-	private UserOrder orderId;
+	private UserOrder userOrder;
 	
 	@ManyToOne
-	private Product productId;
-	
-	private String detailsName;
-	private String detailsPrice;
-	private int detailsQuantity;
+	private Product product;
+
+	@Column(nullable = false, length = 50)
+	private String name;
+	@Column(columnDefinition = "Decimal(10,2)", nullable = false)
+	private double price;
+	@Column(nullable = false, columnDefinition = "default = '1'")
+	private int quantity;
 
 	@Column(updatable = false)
 	@CreationTimestamp
@@ -34,58 +37,59 @@ public class UserOrderDetails {
 	
 	public UserOrderDetails() {}
 		
-	public UserOrderDetails(String detailsName, String detailsPrice, int detailsQuantity) {
-		this.detailsName = detailsName;
-		this.detailsPrice = detailsPrice;
-		this.detailsQuantity = detailsQuantity;
+	public UserOrderDetails(String name, double price, int quantity) {
+		this.name = name;
+		this.price = price;
+		this.quantity = quantity;
 	}
 
-	public long getDetailsId() {
-		return detailsId;
+	public long getDetailId() {
+		return detailId;
 	}
 
-	
-
-	public UserOrder getOrderId() {
-		return orderId;
+	public void setDetailId(long detailId) {
+		this.detailId = detailId;
 	}
 
-	public void setOrderId(UserOrder orderId) {
-		this.orderId = orderId;
+	public UserOrder getUserOrder() {
+		return userOrder;
 	}
 
-	public Product getProductId() {
-		return productId;
+	public void setUserOrder(UserOrder userOrder) {
+		this.userOrder = userOrder;
 	}
 
-	public void setProductId(Product productId) {
-		this.productId = productId;
+	public Product product() {
+		return product;
 	}
 
-	public String getDetailsName() {
-		return detailsName;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
-	public void setDetailsName(String detailsName) {
-		this.detailsName = detailsName;
+	public String getName() {
+		return name;
 	}
 
-	public String getDetailsPrice() {
-		return detailsPrice;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public void setDetailsPrice(String detailsPrice) {
-		this.detailsPrice = detailsPrice;
+	public double getPrice() {
+		return price;
 	}
 
-	public int getDetailsQuantity() {
-		return detailsQuantity;
+	public void setPrice(double price) {
+		this.price = price;
 	}
 
-	public void setDetailsQuantity(int detailsQuantity) {
-		this.detailsQuantity = detailsQuantity;
+	public int getQuantity() {
+		return quantity;
 	}
 
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 
 	public Timestamp getCreated() {
 		return created;

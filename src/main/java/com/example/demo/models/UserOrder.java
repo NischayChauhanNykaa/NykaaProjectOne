@@ -6,6 +6,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.sql.Date;
 import  java.sql.Timestamp;
+import java.text.DecimalFormat;
 
 @Entity
 public class UserOrder {
@@ -15,20 +16,35 @@ public class UserOrder {
 	private long orderId;
 	
 	@ManyToOne
-	private User orderUserId;
-		
-	private float orderAmount;
-	private float orderShipmentCharge;
-	
-	private String orderShipmentName;
-	private String orderShipmentAddress;
-	private String orderCity;
-	private String orderState;
-	private String orderZip;
-	private String orderCountry;
-	private String orderPhone;
-	private String orderEmail;
-	private boolean orderShipped;
+	private User user;
+
+	@Column(columnDefinition="Decimal(10,2)")
+	private double amount;
+
+	@Column(columnDefinition="Decimal(10,2)")
+	private double shippingCharge;
+
+	@Column(nullable = false, length = 50)
+	private String name;
+
+	@Column(nullable = false)
+	private String address;
+
+	@Column(nullable = false, length = 30)
+	private String city;
+	@Column(nullable = false, length = 30)
+	private String state;
+	@Column(nullable = false, length = 10)
+	private String zip;
+	@Column(nullable = false, length = 30)
+	private String country;
+	@Column(nullable = false, length = 20)
+	private String phone;
+
+	@Column(length = 50)
+	private String email;
+
+	private boolean shipped;
 
 	@Column(updatable = false)
 	@CreationTimestamp
@@ -43,170 +59,125 @@ public class UserOrder {
 
 
 
-	public UserOrder(float orderAmount, float orderShipmentCharge, String orderShipmentName,
-			String orderShipmentAddress, String orderCity, String orderState, String orderZip, String orderCountry,
-			String orderPhone, String orderEmail, boolean orderShipped) {
-		this.orderAmount = orderAmount;
-		this.orderShipmentCharge = orderShipmentCharge;
-		this.orderShipmentName = orderShipmentName;
-		this.orderShipmentAddress = orderShipmentAddress;
-		this.orderCity = orderCity;
-		this.orderState = orderState;
-		this.orderZip = orderZip;
-		this.orderCountry = orderCountry;
-		this.orderPhone = orderPhone;
-		this.orderEmail = orderEmail;
-		this.orderShipped = orderShipped;
+	public UserOrder(float amount, float shippingCharge, User user, String name,
+			String address, String city, String state, String zip, String country,
+			String phone, String email, boolean shipped) {
+		this.amount = amount;
+		this.shippingCharge = shippingCharge;
+		this.user = user;
+		this.name = name;
+		this.address = address;
+		this.city = city;
+		this.state = state;
+		this.zip = zip;
+		this.country = country;
+		this.phone = phone;
+		this.email = email;
+		this.shipped = shipped;
 	}
-
-
 
 	public long getOrderId() {
 		return orderId;
 	}
 
-
-
-	public User getOrderUserId() {
-		return orderUserId;
+	public void setOrderId(long orderId) {
+		this.orderId = orderId;
 	}
 
-
-
-	public void setOrderUserId(User orderUserId) {
-		this.orderUserId = orderUserId;
+	public User getUser() {
+		return user;
 	}
 
-
-
-	public float getOrderAmount() {
-		return orderAmount;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-
-
-	public void setOrderAmount(float orderAmount) {
-		this.orderAmount = orderAmount;
+	public double getAmount() {
+		return amount;
 	}
 
-
-
-	public float getOrderShipmentCharge() {
-		return orderShipmentCharge;
+	public void setAmount(float amount) {
+		this.amount = amount;
 	}
 
-
-
-	public void setOrderShipmentCharge(float orderShipmentCharge) {
-		this.orderShipmentCharge = orderShipmentCharge;
+	public double getShippingCharge() {
+		return shippingCharge;
 	}
 
-
-
-	public String getOrderShipmentName() {
-		return orderShipmentName;
+	public void setShippingCharge(float shippingCharge) {
+		this.shippingCharge = shippingCharge;
 	}
 
-
-
-	public void setOrderShipmentName(String orderShipmentName) {
-		this.orderShipmentName = orderShipmentName;
+	public String getName() {
+		return name;
 	}
 
-
-
-	public String getOrderShipmentAddress() {
-		return orderShipmentAddress;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-
-
-	public void setOrderShipmentAddress(String orderShipmentAddress) {
-		this.orderShipmentAddress = orderShipmentAddress;
+	public String getAddress() {
+		return address;
 	}
 
-
-
-	public String getOrderCity() {
-		return orderCity;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
-
-
-	public void setOrderCity(String orderCity) {
-		this.orderCity = orderCity;
+	public String getCity() {
+		return city;
 	}
 
-
-
-	public String getOrderState() {
-		return orderState;
+	public void setCity(String city) {
+		this.city = city;
 	}
 
-
-
-	public void setOrderState(String orderState) {
-		this.orderState = orderState;
+	public String getState() {
+		return state;
 	}
 
-
-
-	public String getOrderZip() {
-		return orderZip;
+	public void setState(String state) {
+		this.state = state;
 	}
 
-
-
-	public void setOrderZip(String orderZip) {
-		this.orderZip = orderZip;
+	public String getZip() {
+		return zip;
 	}
 
-
-
-	public String getOrderCountry() {
-		return orderCountry;
+	public void setZip(String zip) {
+		this.zip = zip;
 	}
 
-
-
-	public void setOrderCountry(String orderCountry) {
-		this.orderCountry = orderCountry;
+	public String getCountry() {
+		return country;
 	}
 
-
-
-	public String getOrderPhone() {
-		return orderPhone;
+	public void setCountry(String country) {
+		this.country = country;
 	}
 
-
-
-	public void setOrderPhone(String orderPhone) {
-		this.orderPhone = orderPhone;
+	public String getPhone() {
+		return phone;
 	}
 
-
-
-	public String getOrderEmail() {
-		return orderEmail;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
-
-
-	public void setOrderEmail(String orderEmail) {
-		this.orderEmail = orderEmail;
+	public String getEmail() {
+		return email;
 	}
 
-
-
-	public boolean isOrderShipped() {
-		return orderShipped;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
+	public boolean isShipped() {
+		return shipped;
+	}
 
-
-	public void setOrderShipped(boolean orderShipped) {
-		this.orderShipped = orderShipped;
+	public void setShipped(boolean shipped) {
+		this.shipped = shipped;
 	}
 
 	public Timestamp getCreated() {
