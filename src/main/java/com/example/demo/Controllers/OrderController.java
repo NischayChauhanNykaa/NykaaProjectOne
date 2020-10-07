@@ -1,6 +1,5 @@
 package com.example.demo.Controllers;
 
-import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,7 +14,6 @@ import com.example.demo.Constants.RouteMap;
 import com.example.demo.Converter.UserOrderConverter;
 import com.example.demo.Services.Structure.UserOrderService;
 import com.example.demo.dto.UserOrderDto;
-import com.example.demo.models.UserOrder;
 import com.example.demo.repositories.OrdersRepository;
 
 @RestController

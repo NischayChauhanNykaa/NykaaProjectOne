@@ -10,7 +10,10 @@ public interface ProductService {
 	
 	public abstract List<ProductDto> getProduct(@Nullable String id);
 	
-	public abstract boolean setProduct(ProductDto productDto);
+	public abstract boolean addProduct(ProductDto productDto);
 	
+	public abstract boolean updateProduct(String id, ProductDto productDto);
+	
+	public abstract boolean deleteProduct(String id);
 
 }

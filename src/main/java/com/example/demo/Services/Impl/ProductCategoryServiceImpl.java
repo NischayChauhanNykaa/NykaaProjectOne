@@ -12,6 +12,7 @@ import com.example.demo.Converter.ProductCategoryConverter;
 import com.example.demo.ExceptionHandler.ProductCategoryNotFoundException;
 import com.example.demo.Services.Structure.ProductCategoryService;
 import com.example.demo.dto.ProductCategoryDto;
+import com.example.demo.models.Product;
 import com.example.demo.models.ProductCategory;
 import com.example.demo.repositories.ProductCategoryRepository;
 
@@ -51,7 +52,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 	}
 
 	@Override
-	public boolean setProductCategiory(ProductCategoryDto productCategoryDto) {
+	public boolean addProductCategiory(ProductCategoryDto productCategoryDto) {
 		if(productCategoryDto==null)
 			return false;
 		boolean result = true;
@@ -62,6 +63,64 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 			result = false;
 		}
 		return result;
+	}
+
+	@Override
+	public boolean updateProductCategory(String id, ProductCategoryDto productCategoryDto) {
+		if(productCategoryDto==null || id==null)
+			return false;
+		
+		int parsed_id = 0;
+		try {
+			parsed_id = Integer.parseInt(id);
+		}catch(Exception e) {
+			logger.error("id not parsed to int");
+			return false;
+		}
+
+		final long category_id = parsed_id;
+			
+		try {
+			if(!productCategoryRepository.existsById(category_id)) {
+				logger.error("The category trying to update, does not exist.");
+				return false;
+			}
+			
+			productCategoryRepository.save(productCategoryConverter.dtoToEntity(productCategoryDto));
+			logger.info("Update Successfull");
+			return true;
+		} catch (Exception e) {
+			logger.error("Error occured in update"+e.getMessage());
+		}
+		return false;
+	}
+
+	@Override
+	public boolean deleteProductCategory(String id) {
+		if(id==null)
+			return false;
+		
+		int parsed_id = 0;
+		try {
+			parsed_id = Integer.parseInt(id);
+		}catch(Exception e) {
+			logger.error("Id not parsed to int");
+			return false;
+		}
+	
+		final long category_id = parsed_id;
+			
+		try {
+			ProductCategory productCategory = productCategoryRepository.findBycategoryId(category_id);
+			productCategory.setDeleted(true);
+			productCategoryRepository.save(productCategory);
+			logger.info("Delete Successfull");
+			return true;
+		} catch (Exception e) {
+			logger.error("Error occured in delete"+e.getMessage());
+		}
+		
+		return false;
 	}
 
 }

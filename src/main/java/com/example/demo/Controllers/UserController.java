@@ -4,18 +4,12 @@ package com.example.demo.Controllers;
 import com.example.demo.ExceptionHandler.UserNotFoundException;
 import com.example.demo.models.User;
 import com.example.demo.repositories.UserRepository;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.expression.ExpressionException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")

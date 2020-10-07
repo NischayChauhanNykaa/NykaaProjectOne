@@ -43,14 +43,14 @@ public class ProductServiceImpl implements ProductService{
 
 			final long product_id = parsed_id;
 
-			Product result = productRepository.findByproductId(product_id);
+			Product product = productRepository.findByproductId(product_id);
 			
-			if(result!=null) {
-				logger.error("Object::: "+result.toString());
-				return productConverter.entityToDto(Arrays.asList(result));
+			if(product!=null && !product.isDeleted()) {
+				return productConverter.entityToDto(Arrays.asList(product));
 			}
 		}else {
-			return productConverter.entityToDto(productRepository.findAll());	
+			
+			return productConverter.entityToDto(productRepository.findByDeleted(false));	
 		}
 		
 		return null;
@@ -58,7 +58,7 @@ public class ProductServiceImpl implements ProductService{
 
 	
 	@Override
-	public boolean setProduct(ProductDto productDto) {
+	public boolean addProduct(ProductDto productDto) {
 		if(productDto==null) 
 			return false;
 		boolean result = true;
@@ -69,6 +69,66 @@ public class ProductServiceImpl implements ProductService{
 			result = false;
 		}
 		return result;
+	}
+
+
+	@Override
+	public boolean updateProduct(String id,ProductDto productDto) {
+		if(productDto==null || id==null)
+			return false;
+		
+		int parsed_id = 0;
+		try {
+			parsed_id = Integer.parseInt(id);
+		}catch(Exception e) {
+			logger.error("id not parsed to int");
+			return false;
+		}
+
+		final long product_id = parsed_id;
+			
+		try {
+			if(!productRepository.existsById(product_id)) {
+				logger.error("The product trying to update, does not exist.");
+				return false;
+			}
+			
+			productRepository.save(productConverter.dtoToEntity(productDto));
+			logger.info("Update Successfull");
+			return true;
+		} catch (Exception e) {
+			logger.error("Error occured in update"+e.getMessage());
+		}
+		return false;
+	}
+
+
+	@Override
+	public boolean deleteProduct(String id) {
+		if(id==null)
+			return false;
+		
+		int parsed_id = 0;
+		try {
+			parsed_id = Integer.parseInt(id);
+		}catch(Exception e) {
+			logger.error("Id not parsed to int");
+			return false;
+		}
+	
+		final long product_id = parsed_id;
+			
+		try {
+			Product product = productRepository.findByproductId(product_id);
+			product.setDeleted(true);
+			productRepository.save(product);
+			logger.info("Delete Successfull");
+			return true;
+		} catch (Exception e) {
+			logger.error("Error occured in delete"+e.getMessage());
+		}
+		
+		return false;
 	}
 
 }
