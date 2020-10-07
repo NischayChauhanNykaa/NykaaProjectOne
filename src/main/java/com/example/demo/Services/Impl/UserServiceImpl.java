@@ -3,12 +3,16 @@ package com.example.demo.Services.Impl;
 import com.example.demo.Converter.UserConverter;
 import com.example.demo.ExceptionHandler.UserNotFoundException;
 import com.example.demo.Services.Structure.UserService;
+import com.example.demo.dto.LoginDto;
 import com.example.demo.dto.UserDto;
 import com.example.demo.models.User;
 import com.example.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.awt.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -43,21 +47,39 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto fetch(long id) {
-        return null;
+        User user = userRepository.findByUserId(id);
+        if(user == null || user.isDeleted()) return null;
+        return userConverter.entityToDto(user);
     }
 
     @Override
-    public boolean login(UserDto userDto) {
-        return false;
+    public boolean login(LoginDto loginDto) {
+        String email = loginDto.getEmail();
+        String password = loginDto.getPassword();
+        User user = userRepository.findByEmail(email);
+        return user != null && !user.isDeleted() && bCryptPasswordEncoder.matches(password, user.getPassword());
     }
 
     @Override
-    public boolean delete(UserDto userDto) {
-        return false;
+    public boolean delete(long id) {
+        User user = userRepository.findByUserId(id);
+        if(user == null) return false;
+        user.setDeleted(true);
+        return true;
     }
 
     @Override
     public boolean update(UserDto userDto) {
-        return false;
+        if(userDto == null || userDto.getUserId()==0) return false;
+        User user = userRepository.findByUserId(userDto.getUserId());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setPhone(userDto.getPhone());
+        user.setAddress(userDto.getAddress());
+        user.setCity(userDto.getCity());
+        user.setState(userDto.getState());
+        user.setZip(userDto.getZip());
+        userRepository.save(user);
+        return true;
     }
 }
