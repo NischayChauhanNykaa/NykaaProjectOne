@@ -25,7 +25,7 @@ public class UserOrderDetails {
 	private String name;
 	@Column(columnDefinition = "Decimal(10,2)", nullable = false)
 	private double price;
-	@Column(nullable = false, columnDefinition = "default = '1'")
+	@Column(nullable = false)
 	private int quantity;
 
 	@Column(updatable = false)
