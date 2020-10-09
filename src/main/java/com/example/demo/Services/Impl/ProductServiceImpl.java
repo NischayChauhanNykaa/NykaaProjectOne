@@ -3,6 +3,7 @@ package com.example.demo.Services.Impl;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +34,11 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public List<ProductDto> getProduct(String id) {
 		if(id!=null) {
-			int parsed_id = 0;
+			int parsed_id;
 			try {
 				parsed_id = Integer.parseInt(id);
 			}catch(Exception e) {
-				logger.error("No. of products not parsed to int");
+				logger.log(Level.ERROR,"No. of products not parsed to int");
 				return null;
 			}
 
@@ -65,7 +66,7 @@ public class ProductServiceImpl implements ProductService{
 		try {
 			productRepository.save(productConverter.dtoToEntity(productDto));	
 		} catch (Exception e) {
-			logger.error("error occured while insert "+e.getMessage());
+			logger.error("error occurred while insert "+e.getMessage());
 			result = false;
 		}
 		return result;
@@ -77,7 +78,7 @@ public class ProductServiceImpl implements ProductService{
 		if(productDto==null || id==null)
 			return false;
 		
-		int parsed_id = 0;
+		int parsed_id;
 		try {
 			parsed_id = Integer.parseInt(id);
 		}catch(Exception e) {
@@ -94,10 +95,10 @@ public class ProductServiceImpl implements ProductService{
 			}
 			
 			productRepository.save(productConverter.dtoToEntity(productDto));
-			logger.info("Update Successfull");
+			logger.info("Update Successful");
 			return true;
 		} catch (Exception e) {
-			logger.error("Error occured in update"+e.getMessage());
+			logger.error("Error occurred in update"+e.getMessage());
 		}
 		return false;
 	}
@@ -108,7 +109,7 @@ public class ProductServiceImpl implements ProductService{
 		if(id==null)
 			return false;
 		
-		int parsed_id = 0;
+		int parsed_id;
 		try {
 			parsed_id = Integer.parseInt(id);
 		}catch(Exception e) {
@@ -122,10 +123,10 @@ public class ProductServiceImpl implements ProductService{
 			Product product = productRepository.findByproductId(product_id);
 			product.setDeleted(true);
 			productRepository.save(product);
-			logger.info("Delete Successfull");
+			logger.info("Delete Successful");
 			return true;
 		} catch (Exception e) {
-			logger.error("Error occured in delete"+e.getMessage());
+			logger.error("Error occurred in delete"+e.getMessage());
 		}
 		
 		return false;
