@@ -1,11 +1,12 @@
 package com.example.demo.Services.Structure;
 
 import com.example.demo.dto.LoginDto;
+import com.example.demo.dto.ResponseDto;
 import com.example.demo.dto.UserDto;
 
 public interface UserService {
 
-    public abstract boolean save(UserDto userDto);
+    public abstract ResponseDto save(UserDto userDto);
 
     public abstract UserDto fetch(long id);
 

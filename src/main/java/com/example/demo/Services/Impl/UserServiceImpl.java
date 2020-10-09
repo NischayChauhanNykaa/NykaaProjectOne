@@ -4,6 +4,8 @@ import com.example.demo.Converter.UserConverter;
 import com.example.demo.ExceptionHandler.UserNotFoundException;
 import com.example.demo.Services.Structure.UserService;
 import com.example.demo.dto.LoginDto;
+import com.example.demo.dto.ResponseDto;
+//import com.example.demo.dto.UserDetailsDto;
 import com.example.demo.dto.UserDto;
 import com.example.demo.models.User;
 import com.example.demo.repositories.UserRepository;
@@ -26,23 +28,37 @@ public class UserServiceImpl implements UserService {
     BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     @Override
-    public boolean save(UserDto userDto) {
-        if(userDto == null) return false;
+    public ResponseDto save(UserDto userDto) {
+        ResponseDto responseDto = new ResponseDto();
         try {
+            if(userDto.getEmail() == null || userDto.getPassword() == null){
+                responseDto.setSuccess(false);
+                responseDto.setMessage("Invalid details");
+                responseDto.setHttpStatus(400);
+                return responseDto;
+            }
             String email = userDto.getEmail();
             if(email != null && !"".equals(email)) {
                 User user = userRepository.findByEmail(email);
                 if(user != null) {
+                    responseDto.setSuccess(false);
+                    responseDto.setMessage("User with this email id already exists");
+                    responseDto.setHttpStatus(409);
                     throw new Exception("User with this Email already exists");
                 };
             }
             userDto.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
-            userRepository.save(userConverter.dtoToEntity(userDto));
+            User user = userRepository.save(userConverter.dtoToEntity(userDto));
+            responseDto.setData(userConverter.entityToDto(user));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return false;
+            responseDto.setMessage(e.getMessage());
+            responseDto.setHttpStatus(500);
+            return responseDto;
         }
-        return true;
+        responseDto.setSuccess(true);
+        responseDto.setMessage("User registration successful");
+        responseDto.setHttpStatus(200);
+        return responseDto;
     }
 
     @Override

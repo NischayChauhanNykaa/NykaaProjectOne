@@ -4,6 +4,7 @@ package com.example.demo.Controllers;
 import com.example.demo.ExceptionHandler.UserNotFoundException;
 import com.example.demo.Services.Structure.UserService;
 import com.example.demo.dto.LoginDto;
+import com.example.demo.dto.ResponseDto;
 import com.example.demo.dto.UserDto;
 import com.example.demo.models.User;
 import com.example.demo.repositories.UserRepository;
@@ -41,10 +42,9 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody UserDto userDto) {
-        if(userService.save(userDto))
-            return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
-        return new ResponseEntity<>("Error while registering user", HttpStatus.NOT_ACCEPTABLE);
+    public ResponseEntity<ResponseDto> registerUser(@RequestBody UserDto userDto) {
+        ResponseDto responseDto = userService.save(userDto);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     @PostMapping("/login")
