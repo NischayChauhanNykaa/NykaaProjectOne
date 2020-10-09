@@ -1,4 +1,4 @@
-# New 2 NykaaProjectOne
+# NykaaProjectOne
 
 ## Database Scheme
 
