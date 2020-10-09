@@ -8,6 +8,9 @@ import com.example.demo.dto.ResponseDto;
 import com.example.demo.dto.UserDto;
 import com.example.demo.models.User;
 import com.example.demo.repositories.UserRepository;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +22,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UserController {
+
+    Logger logger = LogManager.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
@@ -36,6 +41,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDto> getUser(@PathVariable long id) {
+        logger.log(Level.INFO,"Request received at Users with GET");
         ResponseDto responseDto = userService.fetch(id);
         HttpStatus status = HttpStatus.resolve(responseDto.getHttpStatus());
         return new ResponseEntity<>(responseDto, status == null ? HttpStatus.INTERNAL_SERVER_ERROR : status);
@@ -43,6 +49,7 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<ResponseDto> registerUser(@RequestBody UserDto userDto) {
+        logger.log(Level.INFO,"Request received at Users with POST");
         ResponseDto responseDto = userService.save(userDto);
         HttpStatus status = HttpStatus.resolve(responseDto.getHttpStatus());
         return new ResponseEntity<>(responseDto, status == null ? HttpStatus.INTERNAL_SERVER_ERROR : status);
@@ -50,6 +57,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<ResponseDto> loginUser(@RequestBody LoginDto loginDto) {
+        logger.log(Level.INFO,"Request received at Users with POST");
         ResponseDto responseDto = userService.login(loginDto);
         HttpStatus status = HttpStatus.resolve(responseDto.getHttpStatus());
         return new ResponseEntity<>(responseDto, status == null ? HttpStatus.INTERNAL_SERVER_ERROR : status);
@@ -57,6 +65,7 @@ public class UserController {
 
     @PutMapping("/update")
     public ResponseEntity<ResponseDto> updateUser(@RequestBody UserDto userDto) {
+        logger.log(Level.INFO,"Request received at Users with PUT");
         ResponseDto responseDto = userService.update(userDto);
         HttpStatus status = HttpStatus.resolve(responseDto.getHttpStatus());
         return new ResponseEntity<>(responseDto, status == null ? HttpStatus.INTERNAL_SERVER_ERROR : status);
@@ -64,6 +73,7 @@ public class UserController {
 
     @DeleteMapping("/delete")
     public ResponseEntity<ResponseDto> deleteUser(@RequestParam long id) {
+        logger.log(Level.INFO,"Request received at Users with DELETE");
         ResponseDto responseDto = userService.delete(id);
         HttpStatus status = HttpStatus.resolve(responseDto.getHttpStatus());
         return new ResponseEntity<>(responseDto, status == null ? HttpStatus.INTERNAL_SERVER_ERROR : status);

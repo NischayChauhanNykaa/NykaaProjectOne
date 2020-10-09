@@ -9,6 +9,8 @@ import com.example.demo.dto.ResponseDto;
 import com.example.demo.dto.UserDto;
 import com.example.demo.models.User;
 import com.example.demo.repositories.UserRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    Logger logger = LogManager.getLogger(UserService.class);
 
     @Autowired
     UserRepository userRepository;
@@ -45,9 +49,11 @@ public class UserServiceImpl implements UserService {
             User user = userRepository.save(userConverter.dtoToEntity(userDto));
             responseDto.setData(userConverter.entityToDto(user));
             responseDto.setSuccess(true);
-            responseDto.setMessage("User registration successful");
+            responseDto.setMessage("User registered successfully");
             responseDto.setHttpStatus(200);
+            logger.info("User registered successful");
         } catch (Exception e) {
+            logger.error("Error while registering user : " + e.getMessage());
             responseDto.setSuccess(false);
             responseDto.setMessage(e.getMessage());
         }
@@ -67,7 +73,9 @@ public class UserServiceImpl implements UserService {
             responseDto.setSuccess(true);
             responseDto.setHttpStatus(200);
             responseDto.setMessage("User found");
+            logger.info("User found");
         } catch (Exception e) {
+            logger.error("Error while fetching user : " + e.getMessage());
             responseDto.setSuccess(false);
             responseDto.setMessage(e.getMessage());
         }
@@ -88,10 +96,12 @@ public class UserServiceImpl implements UserService {
                 responseDto.setMessage("Login successful");
                 responseDto.setSuccess(true);
                 responseDto.setData(userConverter.entityToDto(user));
+                logger.info("User details updated successfully");
             } else {
                 throw new Exception("Invalid email or password");
             }
         }catch (Exception e) {
+            logger.error("Error at user login : " + e.getMessage());
             responseDto.setSuccess(false);
             responseDto.setMessage(e.getMessage());
             responseDto.setHttpStatus(401);
@@ -113,7 +123,9 @@ public class UserServiceImpl implements UserService {
             responseDto.setSuccess(true);
             responseDto.setMessage("User deleted successfully");
             responseDto.setHttpStatus(200);
+            logger.info("User deleted successfully");
         } catch (Exception e) {
+            logger.error("Error while deleting user : " + e.getMessage());
             responseDto.setMessage(e.getMessage());
             responseDto.setSuccess(false);
         }
@@ -136,12 +148,14 @@ public class UserServiceImpl implements UserService {
             user.setCity(userDto.getCity());
             user.setState(userDto.getState());
             user.setZip(userDto.getZip());
-            User updated = userRepository.save(user);
+            userRepository.save(user);
             responseDto.setSuccess(true);
             responseDto.setHttpStatus(200);
             responseDto.setMessage("User details updated successfully");
             responseDto.setData(userConverter.entityToDto(user));
+            logger.info("User details updated successfully");
         } catch (Exception e) {
+            logger.error("Error while updating user : " + e.getMessage());
             responseDto.setSuccess(false);
             responseDto.setMessage(e.getMessage());
         }
