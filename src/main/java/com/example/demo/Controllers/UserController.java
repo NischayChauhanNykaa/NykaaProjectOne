@@ -35,33 +35,37 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public UserDto getUser(@PathVariable long id) {
-        UserDto userDto = userService.fetch(id);
-        if(userDto == null) throw new UserNotFoundException(id);
-        return userDto;
+    public ResponseEntity<ResponseDto> getUser(@PathVariable long id) {
+        ResponseDto responseDto = userService.fetch(id);
+        HttpStatus status = HttpStatus.resolve(responseDto.getHttpStatus());
+        return new ResponseEntity<>(responseDto, status == null ? HttpStatus.INTERNAL_SERVER_ERROR : status);
     }
 
     @PostMapping("/register")
     public ResponseEntity<ResponseDto> registerUser(@RequestBody UserDto userDto) {
         ResponseDto responseDto = userService.save(userDto);
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+        HttpStatus status = HttpStatus.resolve(responseDto.getHttpStatus());
+        return new ResponseEntity<>(responseDto, status == null ? HttpStatus.INTERNAL_SERVER_ERROR : status);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody LoginDto loginDto) {
-        if(userService.login(loginDto)) return new ResponseEntity<>("Logged in successfully", HttpStatus.OK);
-        return new ResponseEntity<>("Invalid email or password", HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<ResponseDto> loginUser(@RequestBody LoginDto loginDto) {
+        ResponseDto responseDto = userService.login(loginDto);
+        HttpStatus status = HttpStatus.resolve(responseDto.getHttpStatus());
+        return new ResponseEntity<>(responseDto, status == null ? HttpStatus.INTERNAL_SERVER_ERROR : status);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<String> updateUser(@RequestBody UserDto userDto) throws Exception {
-        if(userService.update(userDto)) return new ResponseEntity<>("User updated successfully", HttpStatus.OK);
-        return new ResponseEntity<>("Error while updating user", HttpStatus.NOT_FOUND);
+    public ResponseEntity<ResponseDto> updateUser(@RequestBody UserDto userDto) {
+        ResponseDto responseDto = userService.update(userDto);
+        HttpStatus status = HttpStatus.resolve(responseDto.getHttpStatus());
+        return new ResponseEntity<>(responseDto, status == null ? HttpStatus.INTERNAL_SERVER_ERROR : status);
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteUser(@RequestParam long id) throws Exception {
-        if(userService.delete(id)) return new ResponseEntity<>("User deleted successfully", HttpStatus.OK);
-        return new ResponseEntity<>("Error while deleting user", HttpStatus.NOT_FOUND);
+    public ResponseEntity<ResponseDto> deleteUser(@RequestParam long id) {
+        ResponseDto responseDto = userService.delete(id);
+        HttpStatus status = HttpStatus.resolve(responseDto.getHttpStatus());
+        return new ResponseEntity<>(responseDto, status == null ? HttpStatus.INTERNAL_SERVER_ERROR : status);
     }
 }

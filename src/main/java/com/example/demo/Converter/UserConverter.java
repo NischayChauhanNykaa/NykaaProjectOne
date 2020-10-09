@@ -17,7 +17,6 @@ public class UserConverter {
         userDto.setLastName(user.getLastName());
         userDto.setEmail(user.getEmail());
         userDto.setPhone(user.getPhone());
-        userDto.setPassword(user.getPassword());
         userDto.setAddress(user.getAddress());
         userDto.setCity(user.getCity());
         userDto.setState(user.getState());

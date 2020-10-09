@@ -6,14 +6,14 @@ import com.example.demo.dto.UserDto;
 
 public interface UserService {
 
-    public abstract ResponseDto save(UserDto userDto);
+    ResponseDto save(UserDto userDto);
 
-    public abstract UserDto fetch(long id);
+    ResponseDto fetch(long id);
 
-    public abstract boolean login(LoginDto loginDto);
+    ResponseDto login(LoginDto loginDto);
 
-    public abstract boolean delete(long id);
+    ResponseDto delete(long id);
 
-    public abstract boolean update(UserDto userDto);
+    ResponseDto update(UserDto userDto);
 
 }

@@ -10,11 +10,9 @@ import com.example.demo.dto.UserDto;
 import com.example.demo.models.User;
 import com.example.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.awt.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -32,70 +30,122 @@ public class UserServiceImpl implements UserService {
         ResponseDto responseDto = new ResponseDto();
         try {
             if(userDto.getEmail() == null || userDto.getPassword() == null){
-                responseDto.setSuccess(false);
-                responseDto.setMessage("Invalid details");
                 responseDto.setHttpStatus(400);
-                return responseDto;
+                throw new Exception("Invalid details");
             }
             String email = userDto.getEmail();
             if(email != null && !"".equals(email)) {
-                User user = userRepository.findByEmail(email);
+                User user = userRepository.findByEmailAndDeleted(email, false);
                 if(user != null) {
-                    responseDto.setSuccess(false);
-                    responseDto.setMessage("User with this email id already exists");
                     responseDto.setHttpStatus(409);
                     throw new Exception("User with this Email already exists");
-                };
+                }
             }
             userDto.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
             User user = userRepository.save(userConverter.dtoToEntity(userDto));
             responseDto.setData(userConverter.entityToDto(user));
+            responseDto.setSuccess(true);
+            responseDto.setMessage("User registration successful");
+            responseDto.setHttpStatus(200);
         } catch (Exception e) {
+            responseDto.setSuccess(false);
             responseDto.setMessage(e.getMessage());
-            responseDto.setHttpStatus(500);
-            return responseDto;
         }
-        responseDto.setSuccess(true);
-        responseDto.setMessage("User registration successful");
-        responseDto.setHttpStatus(200);
         return responseDto;
     }
 
     @Override
-    public UserDto fetch(long id) {
-        User user = userRepository.findByUserId(id);
-        if(user == null || user.isDeleted()) return null;
-        return userConverter.entityToDto(user);
+    public ResponseDto fetch(long id) {
+        ResponseDto responseDto = new ResponseDto();
+        try {
+            User user = userRepository.findByUserId(id);
+            if(user == null || user.isDeleted()){
+                responseDto.setHttpStatus(404);
+                throw new Exception("User not found");
+            }
+            responseDto.setData(userConverter.entityToDto(user));
+            responseDto.setSuccess(true);
+            responseDto.setHttpStatus(200);
+            responseDto.setMessage("User found");
+        } catch (Exception e) {
+            responseDto.setSuccess(false);
+            responseDto.setMessage(e.getMessage());
+        }
+
+        return responseDto;
     }
 
     @Override
-    public boolean login(LoginDto loginDto) {
-        String email = loginDto.getEmail();
-        String password = loginDto.getPassword();
-        User user = userRepository.findByEmail(email);
-        return user != null && !user.isDeleted() && bCryptPasswordEncoder.matches(password, user.getPassword());
+    public ResponseDto login(LoginDto loginDto) {
+        ResponseDto responseDto = new ResponseDto();
+        try{
+            String email = loginDto.getEmail();
+            String password = loginDto.getPassword();
+            User user = userRepository.findByEmailAndDeleted(email, false);
+            boolean val = user != null && !user.isDeleted() && bCryptPasswordEncoder.matches(password, user.getPassword());
+            if(val){
+                responseDto.setHttpStatus(200);
+                responseDto.setMessage("Login successful");
+                responseDto.setSuccess(true);
+                responseDto.setData(userConverter.entityToDto(user));
+            } else {
+                throw new Exception("Invalid email or password");
+            }
+        }catch (Exception e) {
+            responseDto.setSuccess(false);
+            responseDto.setMessage(e.getMessage());
+            responseDto.setHttpStatus(401);
+        }
+        return responseDto;
     }
 
     @Override
-    public boolean delete(long id) {
-        User user = userRepository.findByUserId(id);
-        if(user == null) return false;
-        user.setDeleted(true);
-        return true;
+    public ResponseDto delete(long id) {
+        ResponseDto responseDto = new ResponseDto();
+        try {
+            User user = userRepository.findByUserId(id);
+            if(user == null){
+                responseDto.setHttpStatus(404);
+                throw new Exception("User not found");
+            }
+            user.setDeleted(true);
+            userRepository.save(user);
+            responseDto.setSuccess(true);
+            responseDto.setMessage("User deleted successfully");
+            responseDto.setHttpStatus(200);
+        } catch (Exception e) {
+            responseDto.setMessage(e.getMessage());
+            responseDto.setSuccess(false);
+        }
+        return responseDto;
     }
 
     @Override
-    public boolean update(UserDto userDto) {
-        if(userDto == null || userDto.getUserId()==0) return false;
-        User user = userRepository.findByUserId(userDto.getUserId());
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setPhone(userDto.getPhone());
-        user.setAddress(userDto.getAddress());
-        user.setCity(userDto.getCity());
-        user.setState(userDto.getState());
-        user.setZip(userDto.getZip());
-        userRepository.save(user);
-        return true;
+    public ResponseDto update(UserDto userDto) {
+        ResponseDto responseDto = new ResponseDto();
+        try {
+            if(userDto == null || userDto.getUserId()==0){
+                responseDto.setHttpStatus(404);
+                throw new Exception("User not found");
+            }
+            User user = userRepository.findByUserId(userDto.getUserId());
+            user.setFirstName(userDto.getFirstName());
+            user.setLastName(userDto.getLastName());
+            user.setPhone(userDto.getPhone());
+            user.setAddress(userDto.getAddress());
+            user.setCity(userDto.getCity());
+            user.setState(userDto.getState());
+            user.setZip(userDto.getZip());
+            User updated = userRepository.save(user);
+            responseDto.setSuccess(true);
+            responseDto.setHttpStatus(200);
+            responseDto.setMessage("User details updated successfully");
+            responseDto.setData(userConverter.entityToDto(user));
+        } catch (Exception e) {
+            responseDto.setSuccess(false);
+            responseDto.setMessage(e.getMessage());
+        }
+
+        return responseDto;
     }
 }
