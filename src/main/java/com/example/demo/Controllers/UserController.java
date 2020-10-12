@@ -40,40 +40,40 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDto> getUser(@PathVariable long id) {
-        logger.log(Level.INFO,"Request received at Users with GET");
+    public ResponseEntity<Object> getUser(@PathVariable long id) {
+        logger.log(Level.INFO,"Request received at getUser with user id {}", id);
         ResponseDto responseDto = userService.fetch(id);
         HttpStatus status = HttpStatus.resolve(responseDto.getHttpStatus());
         return new ResponseEntity<>(responseDto, status == null ? HttpStatus.INTERNAL_SERVER_ERROR : status);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ResponseDto> registerUser(@RequestBody UserDto userDto) {
-        logger.log(Level.INFO,"Request received at Users with POST");
+    public ResponseEntity<Object> registerUser(@RequestBody UserDto userDto) {
+        logger.log(Level.INFO,"Request received at registerUser with email {}", userDto.getEmail());
         ResponseDto responseDto = userService.save(userDto);
         HttpStatus status = HttpStatus.resolve(responseDto.getHttpStatus());
         return new ResponseEntity<>(responseDto, status == null ? HttpStatus.INTERNAL_SERVER_ERROR : status);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ResponseDto> loginUser(@RequestBody LoginDto loginDto) {
-        logger.log(Level.INFO,"Request received at Users with POST");
+    public ResponseEntity<Object> loginUser(@RequestBody LoginDto loginDto) {
+        logger.log(Level.INFO,"Request received at loginUser with email {}", loginDto.getEmail());
         ResponseDto responseDto = userService.login(loginDto);
         HttpStatus status = HttpStatus.resolve(responseDto.getHttpStatus());
         return new ResponseEntity<>(responseDto, status == null ? HttpStatus.INTERNAL_SERVER_ERROR : status);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<ResponseDto> updateUser(@RequestBody UserDto userDto) {
-        logger.log(Level.INFO,"Request received at Users with PUT");
+    public ResponseEntity<Object> updateUser(@RequestBody UserDto userDto) {
+        logger.log(Level.INFO,"Request received at updateUser with email {}", userDto.getEmail());
         ResponseDto responseDto = userService.update(userDto);
         HttpStatus status = HttpStatus.resolve(responseDto.getHttpStatus());
         return new ResponseEntity<>(responseDto, status == null ? HttpStatus.INTERNAL_SERVER_ERROR : status);
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<ResponseDto> deleteUser(@RequestParam long id) {
-        logger.log(Level.INFO,"Request received at Users with DELETE");
+    public ResponseEntity<Object> deleteUser(@RequestParam long id) {
+        logger.log(Level.INFO,"Request received at deleteUser with user id {}", id);
         ResponseDto responseDto = userService.delete(id);
         HttpStatus status = HttpStatus.resolve(responseDto.getHttpStatus());
         return new ResponseEntity<>(responseDto, status == null ? HttpStatus.INTERNAL_SERVER_ERROR : status);
