@@ -8,4 +8,6 @@ import com.example.demo.models.UserOrder;
 @Repository
 public interface OrderRepository extends JpaRepository<UserOrder, Long> {
 	UserOrder findByorderId(long id);
+
+	UserOrder findByOrderId(long id);
 }

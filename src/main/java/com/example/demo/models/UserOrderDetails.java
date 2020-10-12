@@ -117,4 +117,16 @@ public class UserOrderDetails {
 	public Product getProduct() {
 		return product;
 	}
+
+	@Override
+	public String toString() {
+		return "UserOrderDetails{" +
+				"detailId=" + detailId +
+				", userOrder=" + userOrder +
+				", product=" + product +
+				", name='" + name + '\'' +
+				", price=" + price +
+				", quantity=" + quantity +
+				'}';
+	}
 }

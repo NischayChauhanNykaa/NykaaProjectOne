@@ -4,16 +4,15 @@ package com.example.demo.Controllers;
 import com.example.demo.Converter.OrderDetailsConverter;
 import com.example.demo.Services.Structure.OrderDetailsService;
 import com.example.demo.dto.OrderDetailsDto;
+import com.example.demo.dto.ResponseDto;
 import com.example.demo.repositories.OrderDetailsRepository;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.Constants.RouteMap;
 import com.example.demo.Converter.OrderConverter;
@@ -76,4 +75,11 @@ public class OrderController {
 	}
 
 
+	@GetMapping("/{id}")
+	public ResponseEntity<ResponseDto> getOrder(@PathVariable long id) {
+		logger.log(Level.INFO,"Request received at Order with GET");
+		ResponseDto responseDto = orderService.fetch(id);
+		HttpStatus status = HttpStatus.resolve(responseDto.getHttpStatus());
+		return new ResponseEntity<>(responseDto, status == null ? HttpStatus.INTERNAL_SERVER_ERROR : status);
+	}
 }
