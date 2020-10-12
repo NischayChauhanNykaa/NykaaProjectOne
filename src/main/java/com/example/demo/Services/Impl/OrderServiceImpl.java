@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service;
 import com.example.demo.Converter.OrderConverter;
 import com.example.demo.Services.Structure.OrderService;
 import com.example.demo.dto.OrderDto;
-import com.example.demo.repositories.OrdersRepository;
+import com.example.demo.repositories.OrderRepository;
 
 @Service
 public class OrderServiceImpl implements OrderService {
 
 	@Autowired
-	private OrdersRepository orderRepository;
+	private OrderRepository orderRepository;
 	
 	@Autowired
 	private OrderConverter userOrderConverter;

@@ -18,7 +18,7 @@ import com.example.demo.Constants.RouteMap;
 import com.example.demo.Converter.OrderConverter;
 import com.example.demo.Services.Structure.OrderService;
 import com.example.demo.dto.OrderDto;
-import com.example.demo.repositories.OrdersRepository;
+import com.example.demo.repositories.OrderRepository;
 
 @RestController
 @RequestMapping(value = RouteMap.ORDER_CONTROLLER)
@@ -31,7 +31,7 @@ public class OrderController {
 
 
 	@Autowired
-	OrdersRepository orderRepo;
+	OrderRepository orderRepo;
 
 	@Autowired
 	OrderDetailsRepository orderDetailsRepo;

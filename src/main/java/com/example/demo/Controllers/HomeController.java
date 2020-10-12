@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.repositories.OrderDetailsRepository;
-import com.example.demo.repositories.OrdersRepository;
+import com.example.demo.repositories.OrderRepository;
 import com.example.demo.repositories.ProductCategoryRepository;
 import com.example.demo.repositories.UserRepository;
 import com.example.demo.repositories.ProductRepository;
@@ -20,7 +20,7 @@ public class HomeController {
 	UserRepository userRepository;
 	
 	@Autowired
-	OrdersRepository ordersRepository;
+    OrderRepository ordersRepository;
 	
 	@Autowired
 	ProductRepository productRepository;

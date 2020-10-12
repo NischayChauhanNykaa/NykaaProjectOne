@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.example.demo.models.UserOrder;
 
 @Repository
-public interface OrdersRepository extends JpaRepository<UserOrder, Long> {
+public interface OrderRepository extends JpaRepository<UserOrder, Long> {
 	UserOrder findByorderId(long id);
 }
