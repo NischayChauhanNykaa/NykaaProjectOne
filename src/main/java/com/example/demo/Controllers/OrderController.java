@@ -2,6 +2,7 @@ package com.example.demo.Controllers;
 
 
 import com.example.demo.Converter.OrderDetailsConverter;
+import com.example.demo.Services.Structure.OrderDetailsService;
 import com.example.demo.dto.OrderDetailsDto;
 import com.example.demo.repositories.OrderDetailsRepository;
 import org.apache.logging.log4j.LogManager;
@@ -27,14 +28,15 @@ public class OrderController {
 	Logger logger = LogManager.getLogger(OrderController.class);
 
 	@Autowired
-	OrderService userOrderService;
-
+	OrderService orderService;
+	@Autowired
+	OrderDetailsService orderDetailsService;
 
 	@Autowired
 	OrderRepository orderRepo;
-
 	@Autowired
 	OrderDetailsRepository orderDetailsRepo;
+
 
 	@Autowired
 	OrderConverter userOrderConverter;
@@ -45,19 +47,20 @@ public class OrderController {
 	/* Create Order Input --> userOrderDto */
 	@RequestMapping(method = RequestMethod.POST,value = RouteMap.ORDER_CONTROLLER_POST_ORDER)
 	public ResponseEntity<Object> createOrder(@RequestBody OrderDto orderDto) {
-		if(userOrderService.createOrder(orderDto)) {
+		if(orderService.createOrder(orderDto)) {
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
 	}
 
-	// Details --> Product List
+	/* Create Order Details Input --> userOrderDetailsDto */
 	@RequestMapping(method = RequestMethod.POST,value = RouteMap.ORDER_CONTROLLER_POST_ORDER_DETAILS)
-	public ResponseEntity<Object> createOrderDetails(OrderDetailsDto orderDetailsDto){
-
-		return null;
+	public ResponseEntity<Object> createOrderDetails(@RequestBody OrderDetailsDto orderDetailsDto){
+		if(orderDetailsService.createOrderDetails(orderDetailsDto)) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
 	}
-
 
 
 
