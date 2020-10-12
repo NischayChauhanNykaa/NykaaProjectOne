@@ -3,13 +3,10 @@ package com.example.demo.Converter;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.example.demo.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.example.demo.dto.ProductDto;
-import com.example.demo.dto.UserOrderDto;
-import com.example.demo.models.Product;
+import com.example.demo.dto.OrderDto;
 import com.example.demo.models.UserOrder;
 
 @Component
@@ -17,29 +14,29 @@ public class OrderConverter {
     @Autowired
     UserConverter userConverter;
 
-    public UserOrderDto entityToDto(UserOrder userOrder) {
+    public OrderDto entityToDto(UserOrder userOrder) {
         if (userOrder == null)
             return null;
-        UserOrderDto userOrderDto = new UserOrderDto();
+        OrderDto orderDto = new OrderDto();
 
-        userOrderDto.setOrderId(userOrder.getOrderId());
-        userOrderDto.setAddress(userOrder.getAddress());
-        userOrderDto.setAmount(userOrder.getAmount());
-        userOrderDto.setCity(userOrder.getCity());
-        userOrderDto.setCountry(userOrder.getCountry());
-        userOrderDto.setEmail(userOrder.getEmail());
-        userOrderDto.setName(userOrder.getName());
-        userOrderDto.setPhone(userOrder.getPhone());
-        userOrderDto.setShipped(userOrder.isShipped());
-        userOrderDto.setShippingCharge(userOrder.getShippingCharge());
-        userOrderDto.setState(userOrder.getState());
-        userOrderDto.setUserDto(userConverter.entityToDto(userOrder.getUser()));
-        userOrderDto.setZip(userOrder.getZip());
+        orderDto.setOrderId(userOrder.getOrderId());
+        orderDto.setAddress(userOrder.getAddress());
+        orderDto.setAmount(userOrder.getAmount());
+        orderDto.setCity(userOrder.getCity());
+        orderDto.setCountry(userOrder.getCountry());
+        orderDto.setEmail(userOrder.getEmail());
+        orderDto.setName(userOrder.getName());
+        orderDto.setPhone(userOrder.getPhone());
+        orderDto.setShipped(userOrder.isShipped());
+        orderDto.setShippingCharge(userOrder.getShippingCharge());
+        orderDto.setState(userOrder.getState());
+        orderDto.setUserDto(userConverter.entityToDto(userOrder.getUser()));
+        orderDto.setZip(userOrder.getZip());
 
-        return userOrderDto;
+        return orderDto;
     }
 
-    public List<UserOrderDto> entityToDto(List<UserOrder> userOrders) {
+    public List<OrderDto> entityToDto(List<UserOrder> userOrders) {
         if (userOrders == null)
             return null;
 
@@ -47,32 +44,32 @@ public class OrderConverter {
     }
 
 
-    public UserOrder dtoToEntity(UserOrderDto userOrderDto) {
-        if (userOrderDto == null)
+    public UserOrder dtoToEntity(OrderDto orderDto) {
+        if (orderDto == null)
             return null;
         UserOrder userOrder = new UserOrder();
 
-        userOrder.setOrderId(userOrderDto.getOrderId());
-        userOrder.setAddress(userOrderDto.getAddress());
-        userOrder.setAmount(userOrderDto.getAmount());
-        userOrder.setCity(userOrderDto.getCity());
-        userOrder.setCountry(userOrderDto.getCountry());
-        userOrder.setEmail(userOrderDto.getEmail());
-        userOrder.setName(userOrderDto.getName());
-        userOrder.setPhone(userOrderDto.getPhone());
-        userOrder.setShipped(userOrderDto.isShipped());
-        userOrder.setShippingCharge(userOrderDto.getShippingCharge());
-        userOrder.setState(userOrderDto.getState());
-        userOrder.setUser(userConverter.dtoToEntity(userOrderDto.getUserDto()));
-        userOrder.setZip(userOrderDto.getZip());
+        userOrder.setOrderId(orderDto.getOrderId());
+        userOrder.setAddress(orderDto.getAddress());
+        userOrder.setAmount(orderDto.getAmount());
+        userOrder.setCity(orderDto.getCity());
+        userOrder.setCountry(orderDto.getCountry());
+        userOrder.setEmail(orderDto.getEmail());
+        userOrder.setName(orderDto.getName());
+        userOrder.setPhone(orderDto.getPhone());
+        userOrder.setShipped(orderDto.isShipped());
+        userOrder.setShippingCharge(orderDto.getShippingCharge());
+        userOrder.setState(orderDto.getState());
+        userOrder.setUser(userConverter.dtoToEntity(orderDto.getUserDto()));
+        userOrder.setZip(orderDto.getZip());
 
         return userOrder;
     }
 
-    public List<UserOrder> dtoToEntity(List<UserOrderDto> userOrderDtos) {
-        if (userOrderDtos == null)
+    public List<UserOrder> dtoToEntity(List<OrderDto> orderDtos) {
+        if (orderDtos == null)
             return null;
 
-        return userOrderDtos.stream().map(userOrderDto -> dtoToEntity(userOrderDto)).collect(Collectors.toList());
+        return orderDtos.stream().map(userOrderDto -> dtoToEntity(userOrderDto)).collect(Collectors.toList());
     }
 }

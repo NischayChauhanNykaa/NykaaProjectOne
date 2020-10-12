@@ -1,6 +1,6 @@
 package com.example.demo.Converter;
 
-import com.example.demo.dto.UserOrderDetailsDto;
+import com.example.demo.dto.OrderDetailsDto;
 import com.example.demo.models.UserOrderDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,22 +17,22 @@ public class OrderDetailsConverter {
     @Autowired
     OrderConverter userOrderConverter;
 
-    public UserOrderDetailsDto entityToDto(UserOrderDetails userOrderDetails) {
+    public OrderDetailsDto entityToDto(UserOrderDetails userOrderDetails) {
         if (userOrderDetails == null)
             return null;
 
-        UserOrderDetailsDto userOrderDetailsDto = new UserOrderDetailsDto();
-        userOrderDetailsDto.setDetailId(userOrderDetails.getDetailId());
-        userOrderDetailsDto.setName(userOrderDetails.getName());
-        userOrderDetailsDto.setPrice(userOrderDetails.getPrice());
-        userOrderDetailsDto.setProductDto(productConverter.entityToDto(userOrderDetails.getProduct()));
-        userOrderDetailsDto.setUserOrderDto(userOrderConverter.entityToDto(userOrderDetails.getUserOrder()));
-        userOrderDetailsDto.setQuantity(userOrderDetails.getQuantity());
+        OrderDetailsDto orderDetailsDto = new OrderDetailsDto();
+        orderDetailsDto.setDetailId(userOrderDetails.getDetailId());
+        orderDetailsDto.setName(userOrderDetails.getName());
+        orderDetailsDto.setPrice(userOrderDetails.getPrice());
+        orderDetailsDto.setProductDto(productConverter.entityToDto(userOrderDetails.getProduct()));
+        orderDetailsDto.setUserOrderDto(userOrderConverter.entityToDto(userOrderDetails.getUserOrder()));
+        orderDetailsDto.setQuantity(userOrderDetails.getQuantity());
 
-        return userOrderDetailsDto;
+        return orderDetailsDto;
     }
 
-    public List<UserOrderDetailsDto> entityToDto(List<UserOrderDetails> userOrdersDetails) {
+    public List<OrderDetailsDto> entityToDto(List<UserOrderDetails> userOrdersDetails) {
         if (userOrdersDetails == null)
             return null;
 
@@ -40,25 +40,25 @@ public class OrderDetailsConverter {
     }
 
 
-    public UserOrderDetails dtoToEntity(UserOrderDetailsDto userOrderDetailsDto) {
-        if (userOrderDetailsDto == null)
+    public UserOrderDetails dtoToEntity(OrderDetailsDto orderDetailsDto) {
+        if (orderDetailsDto == null)
             return null;
         UserOrderDetails userOrderDetails = new UserOrderDetails();
-        userOrderDetails.setDetailId(userOrderDetailsDto.getDetailId());
-        userOrderDetails.setName(userOrderDetailsDto.getName());
-        userOrderDetails.setPrice(userOrderDetailsDto.getPrice());
-        userOrderDetails.setProduct(productConverter.dtoToEntity(userOrderDetailsDto.getProductDto()));
-        userOrderDetails.setUserOrder(userOrderConverter.dtoToEntity(userOrderDetailsDto.getUserOrderDto()));
-        userOrderDetails.setQuantity(userOrderDetailsDto.getQuantity());
+        userOrderDetails.setDetailId(orderDetailsDto.getDetailId());
+        userOrderDetails.setName(orderDetailsDto.getName());
+        userOrderDetails.setPrice(orderDetailsDto.getPrice());
+        userOrderDetails.setProduct(productConverter.dtoToEntity(orderDetailsDto.getProductDto()));
+        userOrderDetails.setUserOrder(userOrderConverter.dtoToEntity(orderDetailsDto.getUserOrderDto()));
+        userOrderDetails.setQuantity(orderDetailsDto.getQuantity());
 
         return userOrderDetails;
     }
 
-    public List<UserOrderDetails> dtoToEntity(List<UserOrderDetailsDto> userOrderDetailsDtos) {
-        if (userOrderDetailsDtos == null)
+    public List<UserOrderDetails> dtoToEntity(List<OrderDetailsDto> orderDetailsDtos) {
+        if (orderDetailsDtos == null)
             return null;
 
-        return userOrderDetailsDtos.stream().map(userOrderDetailsDto -> dtoToEntity(userOrderDetailsDto)).collect(Collectors.toList());
+        return orderDetailsDtos.stream().map(orderDetailsDto -> dtoToEntity(orderDetailsDto)).collect(Collectors.toList());
     }
 
 }

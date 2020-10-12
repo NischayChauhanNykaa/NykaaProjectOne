@@ -1,7 +1,7 @@
 package com.example.demo.Services.Structure;
 
-import com.example.demo.dto.UserOrderDetailsDto;
+import com.example.demo.dto.OrderDetailsDto;
 
 public interface OrderDetailsService {
-    boolean createOrderDetails(UserOrderDetailsDto userOrderDetailsDto);
+    boolean createOrderDetails(OrderDetailsDto orderDetailsDto);
 }

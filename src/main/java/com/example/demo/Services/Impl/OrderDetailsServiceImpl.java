@@ -1,7 +1,7 @@
 package com.example.demo.Services.Impl;
 
 import com.example.demo.Services.Structure.OrderService;
-import com.example.demo.dto.UserOrderDto;
+import com.example.demo.dto.OrderDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ public class OrderDetailsServiceImpl implements OrderService {
 
 
     @Override
-    public boolean createOrder(UserOrderDto userOrderDto) {
+    public boolean createOrder(OrderDto orderDto) {
 
 
         return false;

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.Converter.OrderConverter;
 import com.example.demo.Services.Structure.OrderService;
-import com.example.demo.dto.UserOrderDto;
+import com.example.demo.dto.OrderDto;
 import com.example.demo.repositories.OrdersRepository;
 
 @Service
@@ -24,12 +24,12 @@ public class OrderServiceImpl implements OrderService {
 
 	
 	@Override
-	public boolean createOrder(UserOrderDto userOrderDto) {
-		if(userOrderDto==null)
+	public boolean createOrder(OrderDto orderDto) {
+		if(orderDto ==null)
 			return false;
 			
 		try {
-			orderRepository.save( userOrderConverter.dtoToEntity(userOrderDto) );
+			orderRepository.save( userOrderConverter.dtoToEntity(orderDto) );
 			return true;
 		} catch (Exception e) {
 			logger.error("Error while saving "+e.getMessage());

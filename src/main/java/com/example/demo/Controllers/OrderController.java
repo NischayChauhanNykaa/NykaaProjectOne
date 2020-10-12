@@ -2,7 +2,7 @@ package com.example.demo.Controllers;
 
 
 import com.example.demo.Converter.OrderDetailsConverter;
-import com.example.demo.dto.UserOrderDetailsDto;
+import com.example.demo.dto.OrderDetailsDto;
 import com.example.demo.repositories.OrderDetailsRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.Constants.RouteMap;
 import com.example.demo.Converter.OrderConverter;
 import com.example.demo.Services.Structure.OrderService;
-import com.example.demo.dto.UserOrderDto;
+import com.example.demo.dto.OrderDto;
 import com.example.demo.repositories.OrdersRepository;
 
 @RestController
@@ -44,8 +44,8 @@ public class OrderController {
 
 	/* Create Order Input --> userOrderDto */
 	@RequestMapping(method = RequestMethod.POST,value = RouteMap.ORDER_CONTROLLER_POST_ORDER)
-	public ResponseEntity<Object> createOrder(@RequestBody UserOrderDto userOrderDto) {
-		if(userOrderService.createOrder(userOrderDto)) {
+	public ResponseEntity<Object> createOrder(@RequestBody OrderDto orderDto) {
+		if(userOrderService.createOrder(orderDto)) {
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
@@ -53,7 +53,7 @@ public class OrderController {
 
 	// Details --> Product List
 	@RequestMapping(method = RequestMethod.POST,value = RouteMap.ORDER_CONTROLLER_POST_ORDER_DETAILS)
-	public ResponseEntity<Object> createOrderDetails(UserOrderDetailsDto userOrderDetailsDto){
+	public ResponseEntity<Object> createOrderDetails(OrderDetailsDto orderDetailsDto){
 
 		return null;
 	}
@@ -63,11 +63,11 @@ public class OrderController {
 
 
 	@RequestMapping(value = "/get")
-	public UserOrderDto reateOrder() {
+	public OrderDto reateOrder() {
 		return userOrderConverter.entityToDto(orderRepo.findAll().get(0));
 	}
 	@RequestMapping(value = "/get2")
-	public UserOrderDetailsDto reaeOrder() {
+	public OrderDetailsDto reaeOrder() {
 		return userOrderDetailsConverter.entityToDto(orderDetailsRepo.findAll().get(0));
 	}
 

@@ -3,7 +3,7 @@ package com.example.demo.dto;
 
 import com.example.demo.models.User;
 
-public class UserOrderDto {
+public class OrderDto {
 
 	private long orderId;
 
@@ -24,10 +24,10 @@ public class UserOrderDto {
 
 	private boolean shipped;
 
-	public UserOrderDto() {}
+	public OrderDto() {}
 	
-	public UserOrderDto(long orderId, UserDto userDto, double amount, double shippingCharge, String name, String address,
-			String city, String state, String zip, String country, String phone, String email, boolean shipped) {
+	public OrderDto(long orderId, UserDto userDto, double amount, double shippingCharge, String name, String address,
+					String city, String state, String zip, String country, String phone, String email, boolean shipped) {
 		this.orderId = orderId;
 		this.userDto = userDto;
 		this.amount = amount;
@@ -43,8 +43,8 @@ public class UserOrderDto {
 		this.shipped = shipped;
 	}
 
-	public UserOrderDto( double amount, double shippingCharge, String name, String address,
-			String city, String state, String zip, String country, String phone, String email, boolean shipped, long orderId) {
+	public OrderDto(double amount, double shippingCharge, String name, String address,
+					String city, String state, String zip, String country, String phone, String email, boolean shipped, long orderId) {
 		this.amount = amount;
 		this.shippingCharge = shippingCharge;
 		this.name = name;

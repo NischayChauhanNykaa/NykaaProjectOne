@@ -1,9 +1,9 @@
 package com.example.demo.dto;
 
-public class UserOrderDetailsDto {
+public class OrderDetailsDto {
 
     private long detailId;
-    private UserOrderDto userOrderDto;
+    private OrderDto orderDto;
 
     private ProductDto productDto;
 
@@ -11,11 +11,11 @@ public class UserOrderDetailsDto {
     private double price;
     private int quantity;
 
-    public UserOrderDetailsDto(){}
+    public OrderDetailsDto(){}
 
-    public UserOrderDetailsDto(long detailId, UserOrderDto userOrderDto, ProductDto productDto, String name, double price, int quantity) {
+    public OrderDetailsDto(long detailId, OrderDto orderDto, ProductDto productDto, String name, double price, int quantity) {
         this.detailId = detailId;
-        this.userOrderDto = userOrderDto;
+        this.orderDto = orderDto;
         this.productDto = productDto;
         this.name = name;
         this.price = price;
@@ -30,12 +30,12 @@ public class UserOrderDetailsDto {
         this.detailId = detailId;
     }
 
-    public UserOrderDto getUserOrderDto() {
-        return userOrderDto;
+    public OrderDto getUserOrderDto() {
+        return orderDto;
     }
 
-    public void setUserOrderDto(UserOrderDto userOrderDto) {
-        this.userOrderDto = userOrderDto;
+    public void setUserOrderDto(OrderDto orderDto) {
+        this.orderDto = orderDto;
     }
 
     public ProductDto getProductDto() {
