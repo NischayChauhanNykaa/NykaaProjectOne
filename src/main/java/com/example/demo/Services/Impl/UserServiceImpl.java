@@ -35,6 +35,7 @@ public class UserServiceImpl implements UserService {
         try {
             if(userDto.getEmail() == null || userDto.getPassword() == null){
                 responseDto.setHttpStatus(400);
+                logger.error("Invalid user details:\n " + userDto.toString());
                 throw new Exception("Invalid details");
             }
             String email = userDto.getEmail();
@@ -42,6 +43,7 @@ public class UserServiceImpl implements UserService {
                 User user = userRepository.findByEmailAndDeleted(email, false);
                 if(user != null) {
                     responseDto.setHttpStatus(409);
+                    logger.error("User with email id {} already exists", email);
                     throw new Exception("User with this Email already exists");
                 }
             }
@@ -51,9 +53,8 @@ public class UserServiceImpl implements UserService {
             responseDto.setSuccess(true);
             responseDto.setMessage("User registered successfully");
             responseDto.setHttpStatus(200);
-            logger.info("User registered successful");
+            logger.info("User {} registered successfully with email {}", user.getUserId(), user.getEmail());
         } catch (Exception e) {
-            logger.error("Error while registering user : " + e.getMessage());
             responseDto.setSuccess(false);
             responseDto.setMessage(e.getMessage());
         }
@@ -67,15 +68,15 @@ public class UserServiceImpl implements UserService {
             User user = userRepository.findByUserId(id);
             if(user == null || user.isDeleted()){
                 responseDto.setHttpStatus(404);
+                logger.error("User with id {} does not exist", id);
                 throw new Exception("User not found");
             }
             responseDto.setData(userConverter.entityToDto(user));
             responseDto.setSuccess(true);
             responseDto.setHttpStatus(200);
             responseDto.setMessage("User found");
-            logger.info("User found");
+            logger.info("User with id {} found", id);
         } catch (Exception e) {
-            logger.error("Error while fetching user : " + e.getMessage());
             responseDto.setSuccess(false);
             responseDto.setMessage(e.getMessage());
         }
@@ -96,12 +97,12 @@ public class UserServiceImpl implements UserService {
                 responseDto.setMessage("Login successful");
                 responseDto.setSuccess(true);
                 responseDto.setData(userConverter.entityToDto(user));
-                logger.info("User details updated successfully");
+                logger.info("User with email {} logged in successfully", email);
             } else {
+                logger.error("Error while logging in with email {}", email);
                 throw new Exception("Invalid email or password");
             }
         }catch (Exception e) {
-            logger.error("Error at user login : " + e.getMessage());
             responseDto.setSuccess(false);
             responseDto.setMessage(e.getMessage());
             responseDto.setHttpStatus(401);
@@ -116,6 +117,7 @@ public class UserServiceImpl implements UserService {
             User user = userRepository.findByUserId(id);
             if(user == null){
                 responseDto.setHttpStatus(404);
+                logger.error("User with id {} does not exist", id);
                 throw new Exception("User not found");
             }
             user.setDeleted(true);
@@ -123,9 +125,8 @@ public class UserServiceImpl implements UserService {
             responseDto.setSuccess(true);
             responseDto.setMessage("User deleted successfully");
             responseDto.setHttpStatus(200);
-            logger.info("User deleted successfully");
+            logger.info("User with id {} deleted successfully", id);
         } catch (Exception e) {
-            logger.error("Error while deleting user : " + e.getMessage());
             responseDto.setMessage(e.getMessage());
             responseDto.setSuccess(false);
         }
@@ -136,11 +137,17 @@ public class UserServiceImpl implements UserService {
     public ResponseDto update(UserDto userDto) {
         ResponseDto responseDto = new ResponseDto();
         try {
-            if(userDto == null || userDto.getUserId()==0){
+            if(userDto == null) {
                 responseDto.setHttpStatus(404);
-                throw new Exception("User not found");
+                logger.error("Invalid user details");
+                throw new Exception("Invalid details");
             }
             User user = userRepository.findByUserId(userDto.getUserId());
+            if(user == null || user.isDeleted()){
+                responseDto.setHttpStatus(404);
+                logger.error("User with id {} does not exist", userDto.getUserId());
+                throw new Exception("User not found");
+            }
             user.setFirstName(userDto.getFirstName());
             user.setLastName(userDto.getLastName());
             user.setPhone(userDto.getPhone());
@@ -153,9 +160,8 @@ public class UserServiceImpl implements UserService {
             responseDto.setHttpStatus(200);
             responseDto.setMessage("User details updated successfully");
             responseDto.setData(userConverter.entityToDto(user));
-            logger.info("User details updated successfully");
+            logger.info("User {} details updated successfully", user.getUserId());
         } catch (Exception e) {
-            logger.error("Error while updating user : " + e.getMessage());
             responseDto.setSuccess(false);
             responseDto.setMessage(e.getMessage());
         }
