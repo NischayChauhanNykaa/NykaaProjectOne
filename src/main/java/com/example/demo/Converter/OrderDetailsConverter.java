@@ -1,8 +1,6 @@
 package com.example.demo.Converter;
 
 import com.example.demo.dto.UserOrderDetailsDto;
-import com.example.demo.dto.UserOrderDto;
-import com.example.demo.models.UserOrder;
 import com.example.demo.models.UserOrderDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,13 +9,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class UserOrderDetailsConverter {
+public class OrderDetailsConverter {
 
     @Autowired
     ProductConverter productConverter;
 
     @Autowired
-    UserOrderConverter userOrderConverter;
+    OrderConverter userOrderConverter;
 
     public UserOrderDetailsDto entityToDto(UserOrderDetails userOrderDetails) {
         if (userOrderDetails == null)

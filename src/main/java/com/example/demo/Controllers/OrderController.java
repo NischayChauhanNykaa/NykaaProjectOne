@@ -1,9 +1,8 @@
 package com.example.demo.Controllers;
 
 
-import com.example.demo.Converter.UserOrderDetailsConverter;
+import com.example.demo.Converter.OrderDetailsConverter;
 import com.example.demo.dto.UserOrderDetailsDto;
-import com.example.demo.models.UserOrderDetails;
 import com.example.demo.repositories.OrderDetailsRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,11 +11,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.Constants.RouteMap;
-import com.example.demo.Converter.UserOrderConverter;
-import com.example.demo.Services.Structure.UserOrderService;
+import com.example.demo.Converter.OrderConverter;
+import com.example.demo.Services.Structure.OrderService;
 import com.example.demo.dto.UserOrderDto;
 import com.example.demo.repositories.OrdersRepository;
 
@@ -27,7 +27,8 @@ public class OrderController {
 	Logger logger = LogManager.getLogger(OrderController.class);
 
 	@Autowired
-	UserOrderService userOrderService;
+	OrderService userOrderService;
+
 
 	@Autowired
 	OrdersRepository orderRepo;
@@ -36,13 +37,13 @@ public class OrderController {
 	OrderDetailsRepository orderDetailsRepo;
 
 	@Autowired
-	UserOrderConverter userOrderConverter;
+	OrderConverter userOrderConverter;
 	@Autowired
-	UserOrderDetailsConverter userOrderDetailsConverter;
+	OrderDetailsConverter userOrderDetailsConverter;
 
 
 	/* Create Order Input --> userOrderDto */
-	@RequestMapping(value = RouteMap.ORDER_CONTROLLER_POST_ORDER)
+	@RequestMapping(method = RequestMethod.POST,value = RouteMap.ORDER_CONTROLLER_POST_ORDER)
 	public ResponseEntity<Object> createOrder(@RequestBody UserOrderDto userOrderDto) {
 		if(userOrderService.createOrder(userOrderDto)) {
 			return new ResponseEntity<>(HttpStatus.OK);
@@ -51,6 +52,14 @@ public class OrderController {
 	}
 
 	// Details --> Product List
+	@RequestMapping(method = RequestMethod.POST,value = RouteMap.ORDER_CONTROLLER_POST_ORDER_DETAILS)
+	public ResponseEntity<Object> createOrderDetails(UserOrderDetailsDto userOrderDetailsDto){
+
+		return null;
+	}
+
+
+
 
 
 	@RequestMapping(value = "/get")

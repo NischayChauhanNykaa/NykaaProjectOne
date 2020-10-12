@@ -5,22 +5,22 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.Converter.UserOrderConverter;
-import com.example.demo.Services.Structure.UserOrderService;
+import com.example.demo.Converter.OrderConverter;
+import com.example.demo.Services.Structure.OrderService;
 import com.example.demo.dto.UserOrderDto;
 import com.example.demo.repositories.OrdersRepository;
 
 @Service
-public class UserOrderServiceImpl implements UserOrderService {
+public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	private OrdersRepository orderRepository;
 	
 	@Autowired
-	private UserOrderConverter userOrderConverter;
+	private OrderConverter userOrderConverter;
 
 	
-	Logger logger = LogManager.getLogger(UserOrderService.class);
+	Logger logger = LogManager.getLogger(OrderService.class);
 
 	
 	@Override

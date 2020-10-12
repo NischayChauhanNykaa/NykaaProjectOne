@@ -13,7 +13,7 @@ import com.example.demo.models.Product;
 import com.example.demo.models.UserOrder;
 
 @Component
-public class UserOrderConverter {
+public class OrderConverter {
     @Autowired
     UserConverter userConverter;
 
