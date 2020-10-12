@@ -2,19 +2,16 @@ package com.example.demo.Controllers;
 
 import java.util.Date;
 
+import com.example.demo.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.models.UserOrder;
 import com.example.demo.repositories.OrderDetailsRepository;
 import com.example.demo.repositories.OrdersRepository;
 import com.example.demo.repositories.ProductCategoryRepository;
 import com.example.demo.repositories.UserRepository;
 import com.example.demo.repositories.ProductRepository;
-import com.example.demo.models.Product;
-import com.example.demo.models.ProductCategory;
-import com.example.demo.models.User;
 
 @RestController
 public class HomeController {
@@ -130,11 +127,11 @@ public class HomeController {
 	@RequestMapping("/testOrderDetail")
 	public String testOrderDetial() {
 		
-//		UserOrderDetails Cod = new UserOrderDetails("DN","DP",1);
-//		uod.setOrderId(ordersRepository.findByorderId(1));
-//		uod.setProductId(productRepository.findByproductId(1));
-//		
-//		orderDetailsRepository.save(Cod);
+		UserOrderDetails Cod = new UserOrderDetails("DN",100,1);
+		Cod.setUserOrder(ordersRepository.findByorderId(1));
+		Cod.setProduct(productRepository.findByproductId(1));
+
+		orderDetailsRepository.save(Cod);
 		
 		return "No Saved";
 	}

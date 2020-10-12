@@ -113,4 +113,8 @@ public class UserOrderDetails {
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
 	}
+
+	public Product getProduct() {
+		return product;
+	}
 }

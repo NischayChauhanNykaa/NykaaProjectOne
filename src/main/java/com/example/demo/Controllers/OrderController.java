@@ -1,6 +1,10 @@
 package com.example.demo.Controllers;
 
 
+import com.example.demo.Converter.UserOrderDetailsConverter;
+import com.example.demo.dto.UserOrderDetailsDto;
+import com.example.demo.models.UserOrderDetails;
+import com.example.demo.repositories.OrderDetailsRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +28,20 @@ public class OrderController {
 
 	@Autowired
 	UserOrderService userOrderService;
-	
+
 	@Autowired
 	OrdersRepository orderRepo;
-	
+
 	@Autowired
-	UserOrderConverter conv;
-	
-	/* Create Order Input --> userOrder */
+	OrderDetailsRepository orderDetailsRepo;
+
+	@Autowired
+	UserOrderConverter userOrderConverter;
+	@Autowired
+	UserOrderDetailsConverter userOrderDetailsConverter;
+
+
+	/* Create Order Input --> userOrderDto */
 	@RequestMapping(value = RouteMap.ORDER_CONTROLLER_POST_ORDER)
 	public ResponseEntity<Object> createOrder(@RequestBody UserOrderDto userOrderDto) {
 		if(userOrderService.createOrder(userOrderDto)) {
@@ -40,11 +50,17 @@ public class OrderController {
 		return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
 	}
 
-	
+	// Details --> Product List
+
+
 	@RequestMapping(value = "/get")
 	public UserOrderDto reateOrder() {
-		return conv.entityToDto(orderRepo.findAll().get(0));
+		return userOrderConverter.entityToDto(orderRepo.findAll().get(0));
 	}
-	
-	
+	@RequestMapping(value = "/get2")
+	public UserOrderDetailsDto reaeOrder() {
+		return userOrderDetailsConverter.entityToDto(orderDetailsRepo.findAll().get(0));
+	}
+
+
 }

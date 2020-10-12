@@ -4,10 +4,10 @@ package com.example.demo.dto;
 import com.example.demo.models.User;
 
 public class UserOrderDto {
-	
+
 	private long orderId;
 
-	private User user;
+	private UserDto userDto;
 	private double amount;
 
 	private double shippingCharge;
@@ -26,10 +26,10 @@ public class UserOrderDto {
 
 	public UserOrderDto() {}
 	
-	public UserOrderDto(long orderId, User user, double amount, double shippingCharge, String name, String address,
+	public UserOrderDto(long orderId, UserDto userDto, double amount, double shippingCharge, String name, String address,
 			String city, String state, String zip, String country, String phone, String email, boolean shipped) {
 		this.orderId = orderId;
-		this.user = user;
+		this.userDto = userDto;
 		this.amount = amount;
 		this.shippingCharge = shippingCharge;
 		this.name = name;
@@ -66,12 +66,12 @@ public class UserOrderDto {
 		this.orderId = orderId;
 	}
 
-	public User getUser() {
-		return user;
+	public UserDto getUserDto() {
+		return userDto;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserDto(UserDto userDto) {
+		this.userDto = userDto;
 	}
 
 	public double getAmount() {
@@ -164,7 +164,7 @@ public class UserOrderDto {
 
 	@Override
 	public String toString() {
-		return "UserOrderDto [orderId=" + orderId + ", user=" + user.toString() + ", amount=" + amount + ", shippingCharge="
+		return "UserOrderDto [orderId=" + orderId + ", user=" + userDto.toString() + ", amount=" + amount + ", shippingCharge="
 				+ shippingCharge + ", name=" + name + ", address=" + address + ", city=" + city + ", state=" + state
 				+ ", zip=" + zip + ", country=" + country + ", phone=" + phone + ", email=" + email + ", shipped="
 				+ shipped + "]";
