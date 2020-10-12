@@ -1,19 +1,6 @@
 package com.example.demo.Controllers;
 
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.example.demo.Constants.RouteMap;
 import com.example.demo.Converter.ProductConverter;
 import com.example.demo.Services.Structure.ProductCategoryService;
@@ -21,6 +8,13 @@ import com.example.demo.Services.Structure.ProductService;
 import com.example.demo.dto.ProductCategoryDto;
 import com.example.demo.dto.ProductDto;
 import com.example.demo.repositories.ProductRepository;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = RouteMap.PRODUCT_CONTROLLER)

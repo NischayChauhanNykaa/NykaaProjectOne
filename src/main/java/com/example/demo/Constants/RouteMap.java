@@ -20,6 +20,6 @@ public class RouteMap
 
 	/* Order Controller API Routes */
     public static final String ORDER_CONTROLLER = "/order";
-    public static final String ORDER_CONTROLLER_SET_ORDER = "/set";
+    public static final String ORDER_CONTROLLER_POST_ORDER = "";
 
 } 

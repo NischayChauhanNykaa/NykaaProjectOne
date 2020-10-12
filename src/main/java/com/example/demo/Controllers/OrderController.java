@@ -32,13 +32,14 @@ public class OrderController {
 	UserOrderConverter conv;
 	
 	/* Create Order Input --> userOrder */
-	@RequestMapping(value = RouteMap.ORDER_CONTROLLER_SET_ORDER)
+	@RequestMapping(value = RouteMap.ORDER_CONTROLLER_POST_ORDER)
 	public ResponseEntity<Object> createOrder(@RequestBody UserOrderDto userOrderDto) {
 		if(userOrderService.createOrder(userOrderDto)) {
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
 	}
+
 	
 	@RequestMapping(value = "/get")
 	public UserOrderDto reateOrder() {
