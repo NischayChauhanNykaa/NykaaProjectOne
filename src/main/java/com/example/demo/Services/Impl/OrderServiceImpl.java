@@ -1,9 +1,10 @@
 package com.example.demo.Services.Impl;
 
-import com.example.demo.dto.ResponseDto;
+import com.example.demo.Converter.MyOrdersConverter;
+import com.example.demo.Services.Structure.OrderDetailsService;
+import com.example.demo.dto.*;
+import com.example.demo.models.User;
 import com.example.demo.models.UserOrder;
-import com.example.demo.models.UserOrderDetails;
-import com.example.demo.repositories.OrderDetailsRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.Converter.OrderConverter;
 import com.example.demo.Services.Structure.OrderService;
-import com.example.demo.dto.OrderDto;
 import com.example.demo.repositories.OrderRepository;
 
 import java.util.ArrayList;
@@ -21,13 +21,16 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
 
 	@Autowired
-	private OrderRepository orderRepository;
+	OrderRepository orderRepository;
 	
 	@Autowired
-	private OrderConverter userOrderConverter;
+	OrderConverter userOrderConverter;
 
 	@Autowired
-	private OrderDetailsRepository orderDetailsRepository;
+	OrderDetailsService orderDetailsService;
+
+	@Autowired
+	MyOrdersConverter myOrdersConverter;
 
 	
 	Logger logger = LogManager.getLogger(OrderService.class);
@@ -53,21 +56,16 @@ public class OrderServiceImpl implements OrderService {
 		ResponseDto responseDto = new ResponseDto();
 		try {
 			UserOrder userOrder = orderRepository.findByOrderId(id);
-			List<UserOrderDetails> orderDetails = orderDetailsRepository.findByUserOrder(userOrder);
+			List<DetailDto> orderDetails = orderDetailsService.getOrderDetails(userOrder);
 			if(userOrder == null) {
 				responseDto.setHttpStatus(404);
-				throw new Exception("Order with the id:" + id + " not found");
+				throw new Exception("Order with the id " + id + " not found");
 			}
-			responseDto.setData(userOrderConverter.entityToDto(userOrder));
+			responseDto.setData(myOrdersConverter.toDto(userOrder, orderDetails));
 			responseDto.setSuccess(true);
 			responseDto.setHttpStatus(200);
 			responseDto.setMessage("Order details found");
-			List<String> details = new ArrayList<>();
-			orderDetails.stream().forEach(d -> {
-				details.add(d.toString());
-			});
-			responseDto.setDetails(details);
-			logger.info("Order details found");
+			logger.info("Order " + id + " details found");
 		} catch (Exception e) {
 			logger.error("Error while fetching order details : " + e.getMessage());
 			responseDto.setSuccess(false);
@@ -76,5 +74,34 @@ public class OrderServiceImpl implements OrderService {
 		return responseDto;
 	}
 
+	@Override
+	public ResponseDto getByUser(User user) {
+		ResponseDto responseDto = new ResponseDto();
+		try {
+			List<UserOrder> userOrders = orderRepository.findByUser(user);
+			if(userOrders == null) {
+				logger.error("Orders not found for the user {}", user.getUserId());
+				throw new Exception("Orders not found for the user " + user.getUserId());
+			}
+			MyOrdersDto myOrdersDto = new MyOrdersDto();
+			List<DetailedOrderDto> orders = new ArrayList<>();
+			userOrders.forEach(order -> {
+				List<DetailDto> orderDetails = orderDetailsService.getOrderDetails(order);
+				orders.add(myOrdersConverter.toDto(order, orderDetails));
+			});
+			myOrdersDto.setUserId(user.getUserId());
+			myOrdersDto.setUserOrders(orders);
+			responseDto.setData(myOrdersDto);
+			responseDto.setSuccess(true);
+			responseDto.setHttpStatus(200);
+			responseDto.setMessage("Orders of user found");
+			logger.info("Orders for user {} found", user.getUserId());
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			responseDto.setSuccess(false);
+			responseDto.setMessage(e.getMessage());
+		}
+		return responseDto;
+	}
 
 }

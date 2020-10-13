@@ -1,11 +1,9 @@
 package com.example.demo.Services.Impl;
 
 import com.example.demo.Converter.UserConverter;
-import com.example.demo.ExceptionHandler.UserNotFoundException;
 import com.example.demo.Services.Structure.UserService;
 import com.example.demo.dto.LoginDto;
 import com.example.demo.dto.ResponseDto;
-//import com.example.demo.dto.UserDetailsDto;
 import com.example.demo.dto.UserDto;
 import com.example.demo.models.User;
 import com.example.demo.repositories.UserRepository;
@@ -44,7 +42,7 @@ public class UserServiceImpl implements UserService {
                 if(user != null) {
                     responseDto.setHttpStatus(409);
                     logger.error("User with email id {} already exists", email);
-                    throw new Exception("User with this Email already exists");
+                    throw new Exception("User with the email " + email + " already exists");
                 }
             }
             userDto.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
@@ -69,7 +67,7 @@ public class UserServiceImpl implements UserService {
             if(user == null || user.isDeleted()){
                 responseDto.setHttpStatus(404);
                 logger.error("User with id {} does not exist", id);
-                throw new Exception("User not found");
+                throw new Exception("User with id " + id + " not found");
             }
             responseDto.setData(userConverter.entityToDto(user));
             responseDto.setSuccess(true);
@@ -100,7 +98,7 @@ public class UserServiceImpl implements UserService {
                 logger.info("User with email {} logged in successfully", email);
             } else {
                 logger.error("Error while logging in with email {}", email);
-                throw new Exception("Invalid email or password");
+                throw new Exception("Invalid email or password\nemail - " + email);
             }
         }catch (Exception e) {
             responseDto.setSuccess(false);
@@ -118,7 +116,7 @@ public class UserServiceImpl implements UserService {
             if(user == null){
                 responseDto.setHttpStatus(404);
                 logger.error("User with id {} does not exist", id);
-                throw new Exception("User not found");
+                throw new Exception("User with id " + id + " not found");
             }
             user.setDeleted(true);
             userRepository.save(user);
@@ -146,7 +144,7 @@ public class UserServiceImpl implements UserService {
             if(user == null || user.isDeleted()){
                 responseDto.setHttpStatus(404);
                 logger.error("User with id {} does not exist", userDto.getUserId());
-                throw new Exception("User not found");
+                throw new Exception("User with id " + userDto.getUserId() + " not found");
             }
             user.setFirstName(userDto.getFirstName());
             user.setLastName(userDto.getLastName());

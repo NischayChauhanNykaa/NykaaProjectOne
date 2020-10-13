@@ -5,6 +5,7 @@ import com.example.demo.Converter.OrderDetailsConverter;
 import com.example.demo.Services.Structure.OrderDetailsService;
 import com.example.demo.dto.OrderDetailsDto;
 import com.example.demo.dto.ResponseDto;
+import com.example.demo.models.User;
 import com.example.demo.repositories.OrderDetailsRepository;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -79,6 +80,14 @@ public class OrderController {
 	public ResponseEntity<ResponseDto> getOrder(@PathVariable long id) {
 		logger.log(Level.INFO,"Request received at Order with GET");
 		ResponseDto responseDto = orderService.fetch(id);
+		HttpStatus status = HttpStatus.resolve(responseDto.getHttpStatus());
+		return new ResponseEntity<>(responseDto, status == null ? HttpStatus.INTERNAL_SERVER_ERROR : status);
+	}
+
+	@GetMapping("/myOrders")
+	public ResponseEntity<ResponseDto> getByUser(@RequestBody User user) {
+		logger.log(Level.INFO,"Request received at Order with GET");
+		ResponseDto responseDto = orderService.getByUser(user);
 		HttpStatus status = HttpStatus.resolve(responseDto.getHttpStatus());
 		return new ResponseEntity<>(responseDto, status == null ? HttpStatus.INTERNAL_SERVER_ERROR : status);
 	}
