@@ -79,8 +79,8 @@ public class OrderServiceImpl implements OrderService {
 		ResponseDto responseDto = new ResponseDto();
 		try {
 			List<UserOrder> userOrders = orderRepository.findByUser(user);
-			if(userOrders == null) {
-				logger.error("Orders not found for the user {}", user.getUserId());
+			if(userOrders.isEmpty()) {
+				responseDto.setHttpStatus(404);
 				throw new Exception("Orders not found for the user " + user.getUserId());
 			}
 			MyOrdersDto myOrdersDto = new MyOrdersDto();
