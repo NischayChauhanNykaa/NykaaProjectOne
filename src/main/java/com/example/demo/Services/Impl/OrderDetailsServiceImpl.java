@@ -114,10 +114,10 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
             long productId = productDto.getProductId();
             Product product = productRepository.findByproductId(productId);
             long quantity = product.getQuantity();
-            if (quantity == 0) {
+            if (quantity < orderDetailsDto.getQuantity()) {
                 throw new Exception();
             } else {
-                product.setQuantity(product.getQuantity() - 1);
+                product.setQuantity(product.getQuantity() - orderDetailsDto.getQuantity());
                 productRepository.save(product);
             }
         }
