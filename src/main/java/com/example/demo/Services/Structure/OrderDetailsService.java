@@ -11,4 +11,7 @@ public interface OrderDetailsService {
     boolean createOrderDetails(OrderDetailsDto orderDetailsDto);
 
     List<DetailDto> getOrderDetails(UserOrder userOrder);
+
+    boolean createOrderDetailsTM(OrderDetailsDto orderDetailsDto) throws Exception;
+
 }

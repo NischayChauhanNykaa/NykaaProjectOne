@@ -52,19 +52,19 @@ public class OrderController {
 		}
 		return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
 	}
-//
-//	/* Create Order Details Input --> userOrderDetailsDto */
-//	@RequestMapping(method = RequestMethod.POST,value = RouteMap.ORDER_CONTROLLER_POST_ORDER_DETAILS)
-//	public ResponseEntity<Object> createOrderDetails(@RequestBody OrderDetailsDto orderDetailsDto){
-//		try {
-//			if(orderDetailsService.createOrderDetailsTM(orderDetailsDto)) {
-//				return new ResponseEntity<>(HttpStatus.OK);
-//			}
-//		} catch (Exception e) {
-//			logger.error("My Error occurred for Transactions "+e.getMessage());
-//		}
-//		return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-//	}
+
+	/* Create Order Details Input --> userOrderDetailsDto */
+	@RequestMapping(method = RequestMethod.POST,value = RouteMap.ORDER_CONTROLLER_POST_ORDER_DETAILS)
+	public ResponseEntity<Object> createOrderDetails(@RequestBody OrderDetailsDto orderDetailsDto){
+		try {
+			if(orderDetailsService.createOrderDetailsTM(orderDetailsDto)) {
+				return new ResponseEntity<>(HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			logger.error("My Error occurred for Transactions "+e.getMessage());
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+	}
 
 
 

@@ -7,15 +7,19 @@ import com.example.demo.Services.Structure.OrderService;
 import com.example.demo.dto.DetailDto;
 import com.example.demo.dto.OrderDetailsDto;
 import com.example.demo.dto.OrderDto;
+import com.example.demo.dto.ProductDto;
+import com.example.demo.models.Product;
 import com.example.demo.models.UserOrder;
 import com.example.demo.models.UserOrderDetails;
 import com.example.demo.repositories.OrderDetailsRepository;
 import com.example.demo.repositories.OrderRepository;
+import com.example.demo.repositories.ProductRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -23,6 +27,8 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 
     @Autowired
     OrderDetailsRepository orderDetailsRepository;
+    @Autowired
+    ProductRepository productRepository;
     @Autowired
     OrderDetailsConverter orderDetailsConverter;
     @Autowired
@@ -60,5 +66,28 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
         }
     }
 
+    @Override
+    @Transactional(rollbackOn = Exception.class)
+    public boolean createOrderDetailsTM(OrderDetailsDto orderDetailsDto) throws Exception {
+        if (orderDetailsDto == null)
+            return false;
+
+        logger.info("Called a Transaction");
+
+        orderDetailsRepository.save(orderDetailsConverter.dtoToEntity(orderDetailsDto));
+
+        ProductDto productDto = orderDetailsDto.getProductDto();
+        long productId = productDto.getProductId();
+        Product product = productRepository.findByproductId(productId);
+        long quantity = product.getQuantity();
+        if (quantity == 0) {
+            throw new Exception();
+        } else {
+            product.setQuantity(product.getQuantity() - 1);
+            productRepository.save(product);
+        }
+
+        return true;
+    }
 
 }
