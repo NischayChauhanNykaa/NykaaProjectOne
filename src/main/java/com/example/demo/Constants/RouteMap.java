@@ -23,5 +23,15 @@ public class RouteMap
     public static final String ORDER_CONTROLLER_POST_ORDER = "";
     public static final String ORDER_CONTROLLER_POST_ORDER_DETAILS = "/details";
     public static final String ORDER_CONTROLLER_POST_ORDER_DETAILS_TRANSACTION = "/detail";
+    public static final String ORDER_CONTROLLER_GET_ORDER_DETAILS = "/{id}";
+    public static final String ORDER_CONTROLLER_GET_ORDERS_BY_EMAIL = "/myOrders";
 
-} 
+
+    /* User Controller API Routes */
+    public static final String USER_CONTROLLER = "/order";
+    public static final String USER_CONTROLLER_REGISTER_USER = "/register";
+    public static final String USER_CONTROLLER_LOGIN_USER = "/login";
+    public static final String USER_CONTROLLER_GET_USER_DETAILS = "/{id}";
+    public static final String USER_CONTROLLER_UPDATE_USER_DETAILS = "/update";
+    public static final String USER_CONTROLLER_DELETE_USER = "/delete";
+}

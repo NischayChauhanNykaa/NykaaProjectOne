@@ -83,18 +83,16 @@ public class OrderController {
 	}
 
 
-
-	@GetMapping("/{id}")
-	public ResponseEntity<ResponseDto> getOrder(@PathVariable long id) {
+	@GetMapping(value = RouteMap.ORDER_CONTROLLER_GET_ORDER_DETAILS)
+	public ResponseEntity<Object> getOrder(@PathVariable long id) {
 		logger.log(Level.INFO,"Request received at Order with GET");
 		ResponseDto responseDto = orderService.fetch(id);
 		HttpStatus status = HttpStatus.resolve(responseDto.getHttpStatus());
 		return new ResponseEntity<>(responseDto, status == null ? HttpStatus.INTERNAL_SERVER_ERROR : status);
 	}
 
-	// Constants
-	@GetMapping("/myOrders")
-	public ResponseEntity<ResponseDto> getByUser(@RequestBody User user) {
+	@GetMapping(value = RouteMap.ORDER_CONTROLLER_GET_ORDERS_BY_EMAIL)
+	public ResponseEntity<Object> getByUser(@RequestBody User user) {
 		logger.log(Level.INFO,"Request received at Order with GET");
 		ResponseDto responseDto = orderService.getByUser(user);
 		HttpStatus status = HttpStatus.resolve(responseDto.getHttpStatus());

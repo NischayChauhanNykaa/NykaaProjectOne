@@ -1,6 +1,7 @@
 package com.example.demo.Controllers;
 
 
+import com.example.demo.Constants.RouteMap;
 import com.example.demo.ExceptionHandler.UserNotFoundException;
 import com.example.demo.Services.Structure.UserService;
 import com.example.demo.dto.LoginDto;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping(value = RouteMap.USER_CONTROLLER)
 public class UserController {
 
     Logger logger = LogManager.getLogger(UserController.class);
@@ -39,7 +40,7 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = RouteMap.USER_CONTROLLER_GET_USER_DETAILS)
     public ResponseEntity<Object> getUser(@PathVariable long id) {
         logger.log(Level.INFO,"Request received at getUser with user id {}", id);
         ResponseDto responseDto = userService.fetch(id);
@@ -47,7 +48,7 @@ public class UserController {
         return new ResponseEntity<>(responseDto, status == null ? HttpStatus.INTERNAL_SERVER_ERROR : status);
     }
 
-    @PostMapping("/register")
+    @PostMapping(value = RouteMap.USER_CONTROLLER_REGISTER_USER)
     public ResponseEntity<Object> registerUser(@RequestBody UserDto userDto) {
         logger.log(Level.INFO,"Request received at registerUser with email {}", userDto.getEmail());
         ResponseDto responseDto = userService.save(userDto);
@@ -55,7 +56,7 @@ public class UserController {
         return new ResponseEntity<>(responseDto, status == null ? HttpStatus.INTERNAL_SERVER_ERROR : status);
     }
 
-    @PostMapping("/login")
+    @PostMapping(value = RouteMap.USER_CONTROLLER_LOGIN_USER)
     public ResponseEntity<Object> loginUser(@RequestBody LoginDto loginDto) {
         logger.log(Level.INFO,"Request received at loginUser with email {}", loginDto.getEmail());
         ResponseDto responseDto = userService.login(loginDto);
@@ -63,7 +64,7 @@ public class UserController {
         return new ResponseEntity<>(responseDto, status == null ? HttpStatus.INTERNAL_SERVER_ERROR : status);
     }
 
-    @PutMapping("/update")
+    @PutMapping(value = RouteMap.USER_CONTROLLER_UPDATE_USER_DETAILS)
     public ResponseEntity<Object> updateUser(@RequestBody UserDto userDto) {
         logger.log(Level.INFO,"Request received at updateUser with email {}", userDto.getEmail());
         ResponseDto responseDto = userService.update(userDto);
@@ -71,7 +72,7 @@ public class UserController {
         return new ResponseEntity<>(responseDto, status == null ? HttpStatus.INTERNAL_SERVER_ERROR : status);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping(value = RouteMap.USER_CONTROLLER_DELETE_USER)
     public ResponseEntity<Object> deleteUser(@RequestParam long id) {
         logger.log(Level.INFO,"Request received at deleteUser with user id {}", id);
         ResponseDto responseDto = userService.delete(id);
