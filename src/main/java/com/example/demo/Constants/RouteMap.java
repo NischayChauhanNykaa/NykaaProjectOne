@@ -22,5 +22,6 @@ public class RouteMap
     public static final String ORDER_CONTROLLER = "/order";
     public static final String ORDER_CONTROLLER_POST_ORDER = "";
     public static final String ORDER_CONTROLLER_POST_ORDER_DETAILS = "/details";
+    public static final String ORDER_CONTROLLER_POST_ORDER_DETAILS_TRANSACTION = "/detail";
 
 } 

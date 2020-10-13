@@ -1,13 +1,11 @@
 package com.example.demo.Services.Impl;
 
 import com.example.demo.Converter.MyOrdersConverter;
+import com.example.demo.Converter.OrderConverter;
 import com.example.demo.Converter.OrderDetailsConverter;
 import com.example.demo.Services.Structure.OrderDetailsService;
 import com.example.demo.Services.Structure.OrderService;
-import com.example.demo.dto.DetailDto;
-import com.example.demo.dto.OrderDetailsDto;
-import com.example.demo.dto.OrderDto;
-import com.example.demo.dto.ProductDto;
+import com.example.demo.dto.*;
 import com.example.demo.models.Product;
 import com.example.demo.models.UserOrder;
 import com.example.demo.models.UserOrderDetails;
@@ -25,6 +23,10 @@ import java.util.List;
 @Service
 public class OrderDetailsServiceImpl implements OrderDetailsService {
 
+    @Autowired
+    OrderRepository orderRepository;
+    @Autowired
+    OrderConverter userOrderConverter;
     @Autowired
     OrderDetailsRepository orderDetailsRepository;
     @Autowired
@@ -89,5 +91,39 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 
         return true;
     }
+
+    @Override
+    @Transactional(rollbackOn = Exception.class)
+    public boolean createOrderAndOrderDetailsTM(FullOrderDto fullOrderDto) throws Exception {
+        OrderDto orderDto = fullOrderDto.getOrderDto();
+        List<OrderDetailsDto> orderDetailsDtos = fullOrderDto.getOrderDetailsDtos();
+
+        if(orderDto ==null || orderDetailsDtos == null)
+            return false;
+
+        logger.info("Called a Transaction");
+
+        long orderId = orderRepository.save( userOrderConverter.dtoToEntity(orderDto) ).getOrderId();
+        UserOrder userOrder = orderRepository.findById(orderId).orElseThrow();
+
+        for (OrderDetailsDto orderDetailsDto:orderDetailsDtos) {
+            orderDetailsDto.setOrderDto(userOrderConverter.entityToDto(userOrder));
+            orderDetailsRepository.save(orderDetailsConverter.dtoToEntity(orderDetailsDto));
+
+            ProductDto productDto = orderDetailsDto.getProductDto();
+            long productId = productDto.getProductId();
+            Product product = productRepository.findByproductId(productId);
+            long quantity = product.getQuantity();
+            if (quantity == 0) {
+                throw new Exception();
+            } else {
+                product.setQuantity(product.getQuantity() - 1);
+                productRepository.save(product);
+            }
+        }
+
+        return true;
+    }
+
 
 }

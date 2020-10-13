@@ -22,6 +22,14 @@ public class OrderDetailsDto {
         this.quantity = quantity;
     }
 
+    public OrderDto getOrderDto() {
+        return orderDto;
+    }
+
+    public void setOrderDto(OrderDto orderDto) {
+        this.orderDto = orderDto;
+    }
+
     public long getDetailId() {
         return detailId;
     }
