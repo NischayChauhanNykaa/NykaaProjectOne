@@ -28,7 +28,7 @@ public class RouteMap
 
 
     /* User Controller API Routes */
-    public static final String USER_CONTROLLER = "/order";
+    public static final String USER_CONTROLLER = "/user";
     public static final String USER_CONTROLLER_REGISTER_USER = "/register";
     public static final String USER_CONTROLLER_LOGIN_USER = "/login";
     public static final String USER_CONTROLLER_GET_USER_DETAILS = "/{id}";
