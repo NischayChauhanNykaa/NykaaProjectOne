@@ -105,7 +105,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 
 
         long orderId = orderRepository.save( userOrderConverter.dtoToEntity(orderDto) ).getOrderId();
-        UserOrder userOrder = orderRepository.findById(orderId).orElseThrow();
+        UserOrder userOrder = orderRepository.findById(orderId).orElseThrow( () -> new Exception() );
 
         for (OrderDetailsDto orderDetailsDto:orderDetailsDtos) {
             orderDetailsDto.setOrderDto(userOrderConverter.entityToDto(userOrder));
