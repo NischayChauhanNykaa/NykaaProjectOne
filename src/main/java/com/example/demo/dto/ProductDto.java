@@ -13,13 +13,13 @@ public class ProductDto {
 	private String productThumbnail;
 	private String productLocation;
 	private String prodcutInfo;
-	
+	private long quantity;
 	
 	public ProductDto() {
 	}
 	
 	public ProductDto(long productId, ProductCategoryDto productCategoryDto, String productName, String productPrice,
-			String productImage, String productThumbnail, String productLocation, String prodcutInfo) {
+			String productImage, String productThumbnail, String productLocation, String prodcutInfo,long quantity) {
 		super();
 		this.productId = productId;
 		this.productCategoryDto = productCategoryDto;
@@ -29,6 +29,15 @@ public class ProductDto {
 		this.productThumbnail = productThumbnail;
 		this.productLocation = productLocation;
 		this.prodcutInfo = prodcutInfo;
+		this.quantity = quantity;
+	}
+
+	public long getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(long quantity) {
+		this.quantity = quantity;
 	}
 
 	public long getProductId() {

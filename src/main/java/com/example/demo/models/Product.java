@@ -46,20 +46,23 @@ public class Product {
 	@Column(length = 1000,nullable = false)
 	private String information;
 
+	@Column(nullable = false)
+	private long quantity;
+
 	@Column(updatable = false)
 	@CreationTimestamp
 	private Date created;
 	@UpdateTimestamp
 	private Date updated;
 
-	
+
 	private boolean deleted = false;
 	
 	
 	public Product() {}
 
 
-	public Product(String name, String price, String image, String thumbnail, String location, String information) {
+	public Product(String name, String price, String image, String thumbnail, String location, String information,long quantity) {
 		super();
 		this.name = name;
 		this.price = price;
@@ -67,6 +70,7 @@ public class Product {
 		this.thumbnail = thumbnail;
 		this.location = location;
 		this.information = information;
+		this.quantity = quantity;
 	}
 
 
@@ -86,6 +90,13 @@ public class Product {
 		this.deleted = deleted;
 	}
 
+	public long getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(long quantity) {
+		this.quantity = quantity;
+	}
 
 	public long getProductId() {
 		return productId;

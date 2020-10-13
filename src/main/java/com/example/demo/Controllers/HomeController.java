@@ -101,23 +101,23 @@ public class HomeController {
 	public String testProduct() {
 
 		
-		Product p1 = new Product("PN1","PC","PI","PT","PL","PI");
+		Product p1 = new Product("PN1","PC","PI","PT","PL","PI",1);
 		p1.setProductCategory(productCategoryRepository.findBycategoryId(1));
 		productRepository.save(p1);
 		
-		 p1 = new Product("PN2","PC","PI","PT","PL","PI");
+		 p1 = new Product("PN2","PC","PI","PT","PL","PI",1);
 		p1.setProductCategory(productCategoryRepository.findBycategoryId(1));
 		productRepository.save(p1);
 		
-		 p1 = new Product("PN3","PC","PI","PT","PL","PI");
+		 p1 = new Product("PN3","PC","PI","PT","PL","PI",1);
 		p1.setProductCategory(productCategoryRepository.findBycategoryId(1));
 		productRepository.save(p1);
 		
-		 p1 = new Product("PN4","PC","PI","PT","PL","PI");
+		 p1 = new Product("PN4","PC","PI","PT","PL","PI",1);
 		p1.setProductCategory(productCategoryRepository.findBycategoryId(1));
 		productRepository.save(p1);
 		
-		 p1 = new Product("PN5","PC","PI","PT","PL","PI");
+		 p1 = new Product("PN5","PC","PI","PT","PL","PI",1);
 		p1.setProductCategory(productCategoryRepository.findBycategoryId(1));
 		productRepository.save(p1);
 		
