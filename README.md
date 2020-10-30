@@ -2,6 +2,11 @@
 
 ## Database Scheme
 
+
+### DB 
+``` 
+create database nykaaprojectone;
+```
 ### product 
 ``` 
 CREATE TABLE `product` (
